@@ -240,7 +240,7 @@ export default function Home() {
       </Head>
       <main className="min-h-screen bg-gray-100 py-10 px-4">
         <div className="max-w-3xl mx-auto space-y-6">
-          <h1 className="text-2xl font-bold text-center text-gray-800">Registrazione Episodio Hockey Inline</h1>
+          <h1 className="text-2xl font-bold text-center text-gray-800">GAHG - Rapporto arbitrale</h1>
           {!isLastStep ? (
             <>
               <h2 className="text-xl font-semibold text-gray-700">{steps[step].label}</h2>
