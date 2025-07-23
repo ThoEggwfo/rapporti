@@ -348,91 +348,68 @@ export default function Home() {
           </button>
         )}
       </div>
+<style jsx>{`
+  .input, .textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
 
-      <style jsx>{`
-        main {
-          max-width: 600px;
-          margin: 2rem auto;
-          padding: 1rem;
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-          background: #f9f9f9;
-          border-radius: 8px;
-          box-shadow: 0 0 12px rgba(0,0,0,0.1);
-        }
-        h1 {
-          text-align: center;
-          margin-bottom: 1.5rem;
-          color: #004b8d;
-        }
-        .step {
-          margin-bottom: 1.5rem;
-        }
-        h2 {
-          margin-bottom: 1rem;
-          color: #007acc;
-          border-bottom: 2px solid #007acc;
-          padding-bottom: 0.25rem;
-        }
-        .input,
-        .textarea {
-          width: 100%;
-          font-size: 1rem;
-          padding: 0.5rem 0.75rem;
-          margin-bottom: 1rem;
-          border: 1.5px solid #ccc;
-          border-radius: 5px;
-          box-sizing: border-box;
-          transition: border-color 0.3s ease;
-          font-family: inherit;
-          resize: vertical;
-        }
-        .input:focus,
-        .textarea:focus {
-          outline: none;
-          border-color: #007acc;
-          background: #e6f0ff;
-        }
-        .textarea {
-          min-height: 100px;
-        }
-        .radio-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.4rem;
-          margin-bottom: 1rem;
-        }
-        label {
-          font-size: 1rem;
-          cursor: pointer;
-          user-select: none;
-        }
-        input[type="radio"] {
-          margin-right: 0.5rem;
-          cursor: pointer;
-        }
-        .buttons {
-          display: flex;
-          justify-content: space-between;
-        }
-        button {
-          background-color: #007acc;
-          color: white;
-          border: none;
-          padding: 0.6rem 1.2rem;
-          font-size: 1rem;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-          min-width: 100px;
-        }
-        button:disabled {
-          background-color: #a0a0a0;
-          cursor: not-allowed;
-        }
-        button:not(:disabled):hover {
-          background-color: #005fa3;
-        }
-      `}</style>
+  .textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  .btn {
+    background: #0070f3;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .btn:hover {
+    background: #005dc1;
+  }
+
+  .btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+    font-size: 1rem;
+  }
+
+  label input[type="radio"] {
+    transform: scale(1.2);
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid #0070f3;
+    padding-left: 0.5rem;
+  }
+
+  .space-y-2 > * + * {
+    margin-top: 0.5rem;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+`}</style>
+
     </main>
   );
 }
