@@ -327,7 +327,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>Registrazione Episodio Hockey Inline</h1>
+      <h1>Rapporto arbitrale GAHG</h1>
       <div className="step">
         <h2>{steps[step].label}</h2>
         {steps[step].content}
