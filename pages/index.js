@@ -34,7 +34,7 @@ export default function Home() {
             onChange={(e) => handleChange("minute", e.target.value)}
             className="input"
           />
-          <div>
+          <div className="radio-group">
             <label>
               <input
                 type="radio"
@@ -85,7 +85,7 @@ export default function Home() {
             onChange={(e) => handleChange("playerNumber", e.target.value)}
             className="input"
           />
-          <div>
+          <div className="radio-group">
             <label>
               <input
                 type="radio"
@@ -133,59 +133,63 @@ export default function Home() {
         <>
           <div>
             <p>Distanza dal disco:</p>
-            <label>
-              <input
-                type="radio"
-                name="puckDistance"
-                value="vicino al disco/all'azione di gioco"
-                checked={formData.puckDistance === "vicino al disco/all'azione di gioco"}
-                onChange={(e) => handleChange("puckDistance", e.target.value)}
-              />
-              Vicino al disco/all'azione di gioco
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="puckDistance"
-                value="lontano dal disco/all'azione di gioco"
-                checked={formData.puckDistance === "lontano dal disco/all'azione di gioco"}
-                onChange={(e) => handleChange("puckDistance", e.target.value)}
-              />
-              Lontano dal disco/all'azione di gioco
-            </label>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="puckDistance"
+                  value="vicino al disco/all'azione di gioco"
+                  checked={formData.puckDistance === "vicino al disco/all'azione di gioco"}
+                  onChange={(e) => handleChange("puckDistance", e.target.value)}
+                />
+                Vicino al disco/all'azione di gioco
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="puckDistance"
+                  value="lontano dal disco/all'azione di gioco"
+                  checked={formData.puckDistance === "lontano dal disco/all'azione di gioco"}
+                  onChange={(e) => handleChange("puckDistance", e.target.value)}
+                />
+                Lontano dal disco/all'azione di gioco
+              </label>
+            </div>
           </div>
           <div>
             <p>Zona del campo:</p>
-            <label>
-              <input
-                type="radio"
-                name="fieldZone"
-                value="lungo la balaustra"
-                checked={formData.fieldZone === "lungo la balaustra"}
-                onChange={(e) => handleChange("fieldZone", e.target.value)}
-              />
-              Lungo la balaustra
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="fieldZone"
-                value="a centro pista"
-                checked={formData.fieldZone === "a centro pista"}
-                onChange={(e) => handleChange("fieldZone", e.target.value)}
-              />
-              A centro pista
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="fieldZone"
-                value="davanti alla porta"
-                checked={formData.fieldZone === "davanti alla porta"}
-                onChange={(e) => handleChange("fieldZone", e.target.value)}
-              />
-              Davanti alla porta
-            </label>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="fieldZone"
+                  value="lungo la balaustra"
+                  checked={formData.fieldZone === "lungo la balaustra"}
+                  onChange={(e) => handleChange("fieldZone", e.target.value)}
+                />
+                Lungo la balaustra
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="fieldZone"
+                  value="a centro pista"
+                  checked={formData.fieldZone === "a centro pista"}
+                  onChange={(e) => handleChange("fieldZone", e.target.value)}
+                />
+                A centro pista
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="fieldZone"
+                  value="davanti alla porta"
+                  checked={formData.fieldZone === "davanti alla porta"}
+                  onChange={(e) => handleChange("fieldZone", e.target.value)}
+                />
+                Davanti alla porta
+              </label>
+            </div>
           </div>
           <textarea
             placeholder="Altro"
@@ -199,7 +203,7 @@ export default function Home() {
     {
       label: "Condizione del giocatore colpito",
       content: (
-        <div>
+        <div className="radio-group">
           <label>
             <input
               type="radio"
@@ -247,7 +251,7 @@ export default function Home() {
       label: "Tipo di penalità e regola",
       content: (
         <>
-          <div>
+          <div className="radio-group">
             <label>
               <input
                 type="radio"
@@ -292,7 +296,7 @@ export default function Home() {
       label: "Commenti finali",
       content: (
         <textarea
-          placeholder="Ulteriori commenti (facoltativi)"
+          placeholder="Commenti o note aggiuntive"
           value={formData.comments}
           onChange={(e) => handleChange("comments", e.target.value)}
           className="textarea"
@@ -301,71 +305,134 @@ export default function Home() {
     },
   ];
 
-  const isLastStep = step === steps.length;
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
-  const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
-
-  const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber}, della ${formData.teamType} ${formData.teamName}, ha ${formData.action}. L’episodio è avvenuto ${formData.puckDistance}, ${formData.fieldZone}. ${formData.other ? "Altro dettaglio: " + formData.other + ". " : ""}Il giocatore che ha subito il fallo ${formData.victimStatus}. All’autore del fallo è stata inflitta ${formData.penaltyType} in base alla seguente regola del regolamento ufficiale di gioco IIHF: ${formData.rule}. Ulteriori commenti: ${formData.comments}`;
+  const canGoNext = () => {
+    // Optional: Basic validation, e.g. required fields filled
+    switch (step) {
+      case 0:
+        return formData.minute.trim() !== "" && formData.situation !== "";
+      case 1:
+        return formData.playerName.trim() !== "" && formData.playerNumber.trim() !== "" && formData.teamType !== "" && formData.teamName.trim() !== "";
+      case 2:
+        return formData.action.trim() !== "";
+      case 3:
+        return formData.puckDistance !== "" && formData.fieldZone !== "";
+      case 4:
+        return formData.victimStatus !== "";
+      case 5:
+        return formData.penaltyType !== "" && formData.rule.trim() !== "";
+      default:
+        return true;
+    }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 space-y-4">
-      {!isLastStep ? (
-        <>
-          <h2 className="text-xl font-semibold">{steps[step].label}</h2>
-          <div className="space-y-2">{steps[step].content}</div>
-          <div className="flex justify-between pt-4">
-            <button onClick={handlePrev} disabled={step === 0} className="btn">
-              Indietro
-            </button>
-            <button onClick={handleNext} className="btn">
-              {step === steps.length - 1 ? "Genera testo" : "Avanti"}
-            </button>
-          </div>
-        </>
-      ) : (
-        <div>
-          <h2 className="text-xl font-bold mb-2">Testo Generato</h2>
-          <textarea
-            value={generateText()}
-            readOnly
-            className="textarea min-h-[200px]"
-          />
-          <button onClick={() => setStep(0)} className="btn mt-4">
-            Compila un nuovo report
+    <main>
+      <h1>Registrazione Episodio Hockey Inline</h1>
+      <div className="step">
+        <h2>{steps[step].label}</h2>
+        {steps[step].content}
+      </div>
+      <div className="buttons">
+        <button onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}>
+          Indietro
+        </button>
+        {step < steps.length - 1 ? (
+          <button onClick={() => canGoNext() && setStep((s) => s + 1)} disabled={!canGoNext()}>
+            Avanti
           </button>
-        </div>
-      )}
+        ) : (
+          <button
+            onClick={() => alert("Dati inviati: " + JSON.stringify(formData, null, 2))}
+          >
+            Invia
+          </button>
+        )}
+      </div>
+
       <style jsx>{`
-        .input, .textarea {
+        main {
+          max-width: 600px;
+          margin: 2rem auto;
+          padding: 1rem;
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+          background: #f9f9f9;
+          border-radius: 8px;
+          box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          color: #004b8d;
+        }
+        .step {
+          margin-bottom: 1.5rem;
+        }
+        h2 {
+          margin-bottom: 1rem;
+          color: #007acc;
+          border-bottom: 2px solid #007acc;
+          padding-bottom: 0.25rem;
+        }
+        .input,
+        .textarea {
           width: 100%;
-          padding: 0.5rem;
-          border: 1px solid #ccc;
-          border-radius: 4px;
           font-size: 1rem;
+          padding: 0.5rem 0.75rem;
+          margin-bottom: 1rem;
+          border: 1.5px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+          transition: border-color 0.3s ease;
+          font-family: inherit;
+          resize: vertical;
         }
-        .btn {
-          background: #0070f3;
-          color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 4px;
-          border: none;
-          cursor: pointer;
+        .input:focus,
+        .textarea:focus {
+          outline: none;
+          border-color: #007acc;
+          background: #e6f0ff;
         }
-        .btn:disabled {
-          background: #aaa;
-          cursor: not-allowed;
+        .textarea {
+          min-height: 100px;
+        }
+        .radio-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          margin-bottom: 1rem;
         }
         label {
-          display: block;
-          margin-bottom: 0.5rem;
+          font-size: 1rem;
+          cursor: pointer;
+          user-select: none;
+        }
+        input[type="radio"] {
+          margin-right: 0.5rem;
           cursor: pointer;
         }
-        label input {
-          margin-right: 0.5rem;
+        .buttons {
+          display: flex;
+          justify-content: space-between;
+        }
+        button {
+          background-color: #007acc;
+          color: white;
+          border: none;
+          padding: 0.6rem 1.2rem;
+          font-size: 1rem;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          min-width: 100px;
+        }
+        button:disabled {
+          background-color: #a0a0a0;
+          cursor: not-allowed;
+        }
+        button:not(:disabled):hover {
+          background-color: #005fa3;
         }
       `}</style>
-    </div>
+    </main>
   );
 }
