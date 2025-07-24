@@ -63,12 +63,15 @@ export default function Home() {
 
   const steps = [
     {
-      label: "Minutaggio dell'episodio 1",
+      label: "Minutaggio dell'episodio 1.0",
       content: (
         <div style={groupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Minutaggio dell'episodio
+          </label>
           <input
             style={inputStyle}
-            placeholder="Minuto dell'episodio 1"
+            placeholder="Minuto"
             value={formData.minute}
             onChange={(e) => handleChange("minute", e.target.value)}
           />
@@ -97,19 +100,34 @@ export default function Home() {
       label: "Giocatore in fallo",
       content: (
         <div style={groupStyle}>
+                    <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Nome del giocatore
+          </label>
           <input
             style={inputStyle}
-            placeholder="Nome del giocatore"
+            placeholder="Nome e cognome"
             value={formData.playerName}
             onChange={(e) => handleChange("playerName", e.target.value)}
           />
+                    <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Numero di maglia
+          </label>
           <input
             style={inputStyle}
-            placeholder="Numero di maglia"
+            placeholder="Numero"
             value={formData.playerNumber}
             onChange={(e) => handleChange("playerNumber", e.target.value)}
           />
-          <div style={radioGroupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Nome della squadra
+          </label>
+          <input
+            style={inputStyle}
+            placeholder="Squadra"
+            value={formData.teamName}
+            onChange={(e) => handleChange("teamName", e.target.value)}
+          />
+                    <div style={radioGroupStyle}>
             {["squadra di casa", "squadra ospite"].map((val) => (
               <label key={val}>
                 <input
@@ -123,12 +141,6 @@ export default function Home() {
               </label>
             ))}
           </div>
-          <input
-            style={inputStyle}
-            placeholder="Nome della squadra"
-            value={formData.teamName}
-            onChange={(e) => handleChange("teamName", e.target.value)}
-          />
         </div>
       ),
     },
@@ -136,6 +148,12 @@ export default function Home() {
       label: "Descrizione dell'azione",
       content: (
         <div style={groupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Il giocatore ha ... (continua qui)
+          </label>
+          <label style={{ marginBottom: "4px", display: "block" }}>
+          es. caricato un avversario all'altezza della testa, colpito un avversario con il bastone sulle gambe, ecc.
+          </label>
           <textarea
             style={textareaStyle}
             placeholder="Descrizione dettagliata dell'azione"
@@ -146,7 +164,7 @@ export default function Home() {
       ),
     },
     {
-      label: "Posizione sul campo",
+      label: "Posizione",
       content: (
         <div style={groupStyle}>
           <div style={radioGroupStyle}>
@@ -197,12 +215,15 @@ export default function Home() {
       label: "Condizione del giocatore colpito",
       content: (
         <div style={groupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Il giocatore ...
+          </label>
           <div style={radioGroupStyle}>
             {[
-              "ha dovuto ricevere cure mediche",
-              "ha ripreso subito la partita",
-              "ha ripreso la partita dopo qualche cambio",
-              "non ha più ripreso la partita",
+              "NON ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+              "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+              "ha dovuto ricevere cure mediche ha ripreso la partita dopo qualche cambio",
+              "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -227,9 +248,10 @@ export default function Home() {
         <div style={groupStyle}>
           <div style={radioGroupStyle}>
             {[
-              "di cattiva condotta (10’)",
-              "partita di cattiva condotta (20’)",
-              "maggiore + partita cattiva condotta (5’+20’)",
+              "una penalità di cattiva condotta (10’)",
+              "una penalità partita di cattiva condotta (20’)",
+              "una penalità maggiore + partita cattiva condotta (5’+20’)",
+              "un altro tipo di penalità (vedi ulteriori commenti)",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -245,9 +267,12 @@ export default function Home() {
               </label>
             ))}
           </div>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+          Regola del regolamento IIHF e titolo della regola 
+          </label>
           <input
             style={inputStyle}
-            placeholder="Regola e descrizione (es. art. 50.3 – Kneeing)"
+            placeholder="(es. Art. 50.3 – Kneeing)"
             value={formData.rule}
             onChange={(e) => handleChange("rule", e.target.value)}
           />
