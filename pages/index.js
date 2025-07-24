@@ -25,7 +25,7 @@ export default function Home() {
   };
 
   const FieldGroup = ({ children }) => (
-    <div className="bg-white shadow rounded-lg p-6 space-y-4">{children}</div>
+    <div className="field-group">{children}</div>
   );
 
   const steps = [
@@ -37,18 +37,20 @@ export default function Home() {
             placeholder="Minuto dell'episodio"
             value={formData.minute}
             onChange={(e) => handleChange("minute", e.target.value)}
-            className="w-full border rounded px-4 py-2"
           />
-          <div className="space-y-2">
-            {["durante un’azione di gioco", "durante un’interruzione di gioco", "alla fine di un periodo"].map((val) => (
-              <label key={val} className="block">
+          <div className="radio-group">
+            {[
+              "durante un’azione di gioco",
+              "durante un’interruzione di gioco",
+              "alla fine di un periodo",
+            ].map((val) => (
+              <label key={val}>
                 <input
                   type="radio"
                   name="situation"
                   value={val}
                   checked={formData.situation === val}
                   onChange={(e) => handleChange("situation", e.target.value)}
-                  className="mr-2"
                 />
                 {val}
               </label>
@@ -65,24 +67,21 @@ export default function Home() {
             placeholder="Nome del giocatore"
             value={formData.playerName}
             onChange={(e) => handleChange("playerName", e.target.value)}
-            className="w-full border rounded px-4 py-2"
           />
           <input
             placeholder="Numero di maglia"
             value={formData.playerNumber}
             onChange={(e) => handleChange("playerNumber", e.target.value)}
-            className="w-full border rounded px-4 py-2"
           />
-          <div className="space-y-2">
+          <div className="radio-group">
             {["squadra di casa", "squadra ospite"].map((val) => (
-              <label key={val} className="block">
+              <label key={val}>
                 <input
                   type="radio"
                   name="teamType"
                   value={val}
                   checked={formData.teamType === val}
                   onChange={(e) => handleChange("teamType", e.target.value)}
-                  className="mr-2"
                 />
                 {val}
               </label>
@@ -92,7 +91,6 @@ export default function Home() {
             placeholder="Nome della squadra"
             value={formData.teamName}
             onChange={(e) => handleChange("teamName", e.target.value)}
-            className="w-full border rounded px-4 py-2"
           />
         </FieldGroup>
       ),
@@ -105,7 +103,6 @@ export default function Home() {
             placeholder="Descrizione dettagliata dell'azione"
             value={formData.action}
             onChange={(e) => handleChange("action", e.target.value)}
-            className="w-full border rounded px-4 py-2 min-h-[100px]"
           />
         </FieldGroup>
       ),
@@ -114,33 +111,38 @@ export default function Home() {
       label: "Posizione sul campo",
       content: (
         <FieldGroup>
-          <div className="space-y-2">
-            <p className="font-semibold">Distanza dal disco:</p>
-            {["vicino al disco/all'azione di gioco", "lontano dal disco/all'azione di gioco"].map((val) => (
-              <label key={val} className="block">
+          <div className="radio-group">
+            <strong>Distanza dal disco:</strong>
+            {[
+              "vicino al disco/all'azione di gioco",
+              "lontano dal disco/all'azione di gioco",
+            ].map((val) => (
+              <label key={val}>
                 <input
                   type="radio"
                   name="puckDistance"
                   value={val}
                   checked={formData.puckDistance === val}
                   onChange={(e) => handleChange("puckDistance", e.target.value)}
-                  className="mr-2"
                 />
                 {val}
               </label>
             ))}
           </div>
-          <div className="space-y-2">
-            <p className="font-semibold">Zona del campo:</p>
-            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map((val) => (
-              <label key={val} className="block">
+          <div className="radio-group">
+            <strong>Zona del campo:</strong>
+            {[
+              "lungo la balaustra",
+              "a centro pista",
+              "davanti alla porta",
+            ].map((val) => (
+              <label key={val}>
                 <input
                   type="radio"
                   name="fieldZone"
                   value={val}
                   checked={formData.fieldZone === val}
                   onChange={(e) => handleChange("fieldZone", e.target.value)}
-                  className="mr-2"
                 />
                 {val}
               </label>
@@ -150,7 +152,6 @@ export default function Home() {
             placeholder="Altro"
             value={formData.other}
             onChange={(e) => handleChange("other", e.target.value)}
-            className="w-full border rounded px-4 py-2 min-h-[80px]"
           />
         </FieldGroup>
       ),
@@ -165,14 +166,13 @@ export default function Home() {
             "ha ripreso la partita dopo qualche cambio",
             "non ha più ripreso la partita",
           ].map((val) => (
-            <label key={val} className="block">
+            <label key={val}>
               <input
                 type="radio"
                 name="victimStatus"
                 value={val}
                 checked={formData.victimStatus === val}
                 onChange={(e) => handleChange("victimStatus", e.target.value)}
-                className="mr-2"
               />
               {val}
             </label>
@@ -189,14 +189,13 @@ export default function Home() {
             "partita di cattiva condotta (20’)",
             "maggiore + partita cattiva condotta (5’+20’)",
           ].map((val) => (
-            <label key={val} className="block">
+            <label key={val}>
               <input
                 type="radio"
                 name="penaltyType"
                 value={val}
                 checked={formData.penaltyType === val}
                 onChange={(e) => handleChange("penaltyType", e.target.value)}
-                className="mr-2"
               />
               {val}
             </label>
@@ -205,7 +204,6 @@ export default function Home() {
             placeholder="Regola e descrizione (es. art. 50.3 – Kneeing)"
             value={formData.rule}
             onChange={(e) => handleChange("rule", e.target.value)}
-            className="w-full border rounded px-4 py-2"
           />
         </FieldGroup>
       ),
@@ -218,7 +216,6 @@ export default function Home() {
             placeholder="Ulteriori commenti (facoltativi)"
             value={formData.comments}
             onChange={(e) => handleChange("comments", e.target.value)}
-            className="w-full border rounded px-4 py-2 min-h-[80px]"
           />
         </FieldGroup>
       ),
@@ -230,7 +227,9 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber}, della ${formData.teamType} ${formData.teamName}, ha ${formData.action}. L’episodio è avvenuto ${formData.puckDistance}, ${formData.fieldZone}. ${formData.other ? "Altro dettaglio: " + formData.other + ". " : ""}Il giocatore che ha subito il fallo ${formData.victimStatus}. All’autore del fallo è stata inflitta ${formData.penaltyType} in base alla seguente regola del regolamento ufficiale di gioco IIHF: ${formData.rule}. Ulteriori commenti: ${formData.comments}`;
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber}, della ${formData.teamType} ${formData.teamName}, ha ${formData.action}. L’episodio è avvenuto ${formData.puckDistance}, ${formData.fieldZone}. ${
+      formData.other ? "Altro dettaglio: " + formData.other + ". " : ""
+    }Il giocatore che ha subito il fallo ${formData.victimStatus}. All’autore del fallo è stata inflitta ${formData.penaltyType} in base alla seguente regola del regolamento ufficiale di gioco IIHF: ${formData.rule}. Ulteriori commenti: ${formData.comments}`;
   };
 
   return (
@@ -238,47 +237,105 @@ export default function Home() {
       <Head>
         <title>GAHG - Rapporto arbitrale</title>
       </Head>
-      <main className="min-h-screen bg-gray-100 py-10 px-4">
-        <div className="max-w-3xl mx-auto space-y-6">
-          <h1 className="text-2xl font-bold text-center text-gray-800">GAHG - Rapporto arbitrale</h1>
+      <main>
+        <div className="container">
+          <h1>GAHG - Rapporto arbitrale</h1>
           {!isLastStep ? (
             <>
-              <h2 className="text-xl font-semibold text-gray-700">{steps[step].label}</h2>
+              <h2>{steps[step].label}</h2>
               {steps[step].content}
-              <div className="flex justify-between pt-4">
-                <button
-                  onClick={handlePrev}
-                  disabled={step === 0}
-                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded disabled:opacity-50"
-                >
+              <div className="buttons">
+                <button onClick={handlePrev} disabled={step === 0}>
                   Indietro
                 </button>
-                <button
-                  onClick={handleNext}
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
+                <button onClick={handleNext}>
                   {step === steps.length - 1 ? "Genera testo" : "Avanti"}
                 </button>
               </div>
             </>
           ) : (
             <FieldGroup>
-              <h2 className="text-xl font-bold mb-2 text-gray-800">Testo generato</h2>
-              <textarea
-                value={generateText()}
-                readOnly
-                className="w-full border rounded px-4 py-2 min-h-[200px] bg-gray-50"
-              />
-              <button
-                onClick={() => setStep(0)}
-                className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                Compila un nuovo report
-              </button>
+              <h2>Testo generato</h2>
+              <textarea value={generateText()} readOnly />
+              <button onClick={() => setStep(0)}>Compila un nuovo report</button>
             </FieldGroup>
           )}
         </div>
       </main>
+      <style jsx>{`
+        main {
+          padding: 2rem;
+          background: #f7fafc;
+          min-height: 100vh;
+        }
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          background: white;
+          border-radius: 12px;
+          padding: 2rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+          font-size: 2rem;
+          text-align: center;
+          margin-bottom: 1.5rem;
+        }
+        h2 {
+          font-size: 1.25rem;
+          margin-bottom: 1rem;
+        }
+        input,
+        textarea {
+          width: 100%;
+          padding: 0.6rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          margin-bottom: 1rem;
+        }
+        textarea {
+          min-height: 120px;
+          resize: vertical;
+        }
+        .field-group {
+          background: #fdfdfd;
+          padding: 1rem;
+          border-radius: 8px;
+          border: 1px solid #e2e8f0;
+          margin-bottom: 2rem;
+        }
+        .radio-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+        label {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .buttons {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+        }
+        button {
+          padding: 0.6rem 1.2rem;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+        button:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+        }
+        button:not(:disabled) {
+          background: #3182ce;
+          color: white;
+        }
+      `}</style>
     </>
   );
 }
