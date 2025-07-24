@@ -240,9 +240,60 @@ export default function Home() {
     },
   ];
 
-  const isLastStep = step === steps.length;
+ const isLastStep = step === steps.length;
   const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
     return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber},
+    squadra ${formData.teamType} (${formData.teamName}), ha compiuto l'azione seguente: ${formData.action}.
+    Posizione: ${formData.puckDistance}, ${formData.fieldZone}. Note aggiuntive: ${formData.other}.
+    Condizione del giocatore colpito: ${formData.victimStatus}.
+    Penalità: ${formData.penaltyType}. Regola: ${formData.rule}.
+    Commenti finali: ${formData.comments}`;
+  };
+
+  return (
+    <>
+      <Head>
+        <title>Rapporto arbitrale GAHG</title>
+      </Head>
+      <main className="max-w-4xl mx-auto p-4">
+        {step < steps.length ? (
+          <>
+            <h2 className="text-xl font-semibold mb-4">{steps[step].label}</h2>
+            {steps[step].content}
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={handlePrev}
+                disabled={step === 0}
+                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+              >
+                Indietro
+              </button>
+              <button
+                onClick={handleNext}
+                className="px-4 py-2 bg-blue-600 text-white rounded"
+              >
+                Avanti
+              </button>
+            </div>
+          </>
+        ) : (
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Rapporto Finale</h2>
+            <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded">
+              {generateText()}
+            </pre>
+            <button
+              onClick={() => setStep(0)}
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Modifica
+            </button>
+          </div>
+        )}
+      </main>
+    </>
+  );
+}
