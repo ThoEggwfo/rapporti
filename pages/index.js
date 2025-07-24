@@ -263,8 +263,7 @@ export default function Home() {
             {[
               "una penalità di cattiva condotta (10’)",
               "una penalità partita di cattiva condotta (20’)",
-              "una penalità maggiore + partita cattiva condotta (5’+20’)",
-              "un altro tipo di penalità (vedi ulteriori commenti)",
+              "una penalità maggiore più penalità partita di cattiva condotta (5’+20’)",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -289,6 +288,19 @@ export default function Home() {
             value={formData.rule}
             onChange={(e) => handleChange("rule", e.target.value)}
           />
+           <label style={{marginBottom: "4px", display: "block" }}>
+            Esempi per articoli di 10' o 20': <br />
+            - art. 39.4 – Abuso agli ufficali di gara (10')<br />
+            - art. 39.5 – Abuso agli ufficali di gara (20')<br />
+            Esempi per articoli di 5'+20': <br />
+            - art. 41.4 – Carica in balaustra <br />
+            - art. 42.4 – Carica scoretta <br />
+            - art. 43.3 – Carica da dietro <br />
+            - art. 45.4 – Gomitata <br />
+            - art. 46.1 – Rissa/Fighting <br />
+            - art. 48.3 – Carica contro la testa <br />
+            - art. 50.3 – Ginocchiata <br />
+          </label>
         </div>
       ),
     },
@@ -315,14 +327,14 @@ export default function Home() {
     return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action}
 L'azione si è svolta ${formData.fieldZone}, ${formData.other} ${formData.puckDistance}.
 Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}.
-In base a quanto rilevato, è stata inflitta una ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
   const handleCopy = () => {
     const text = generateText();
     navigator.clipboard.writeText(text).then(() => {
-      alert("Testo copiato negli appunti!");
+      alert("Testo copiato e pronto per FISG ONLINE!");
     });
   };
 
