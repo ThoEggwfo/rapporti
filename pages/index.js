@@ -32,7 +32,7 @@ export default function Home() {
 
   const steps = [
     {
-      label: "Minutaggio dell'episodio",
+      label: "Minutaggio dell'episodio 1",
       content: (
         <FieldGroup>
           <input
