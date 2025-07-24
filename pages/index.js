@@ -36,7 +36,7 @@ export default function Home() {
       content: (
         <FieldGroup>
           <input
-            placeholder="Minuto dell'episodio"
+            placeholder="Minuto dell'episodio 1"
             value={formData.minute}
             onChange={(e) => handleChange("minute", e.target.value)}
             className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
