@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Head from "next/head";
 
 export default function Home() {
-  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     minute: "",
     situation: "",
@@ -14,52 +12,200 @@ export default function Home() {
     puckDistance: "",
     fieldZone: "",
     other: "",
-    victimStatus: "",
-    penaltyType: "",
-    rule: "",
-    comments: "",
   });
 
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const [step, setStep] = useState(0);
+
+  function handleChange(field, value) {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  }
+
+  function handleNext() {
+    setStep(prev => Math.min(prev + 1, steps.length));
+  }
+
+  function handlePrev() {
+    setStep(prev => Math.max(prev - 1, 0));
+  }
+
+  // Einfaches CSS-in-JS-Styles-Objekt:
+  const styles = {
+    inputField: {
+      width: "100%",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      padding: "0.5rem 1rem",
+      fontSize: "1rem",
+      fontFamily: "inherit",
+      outline: "none",
+      boxSizing: "border-box",
+      marginBottom: "0.5rem",
+      transition: "box-shadow 0.2s ease",
+    },
+    inputFieldFocus: {
+      boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.5)",
+      borderColor: "#3b82f6",
+    },
+    textareaField: {
+      width: "100%",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      padding: "0.5rem 1rem",
+      fontSize: "1rem",
+      fontFamily: "inherit",
+      outline: "none",
+      boxSizing: "border-box",
+      resize: "vertical",
+      marginTop: "0.5rem",
+      minHeight: "70vh",
+      transition: "box-shadow 0.2s ease",
+    },
+    radioGroup: {
+      display: "flex",
+      flexDirection: "column",
+      marginTop: "0.25rem",
+      marginBottom: "1rem",
+      gap: "0.5rem",
+    },
+    radioLabel: {
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      fontSize: "0.9rem",
+      cursor: "pointer",
+      userSelect: "none",
+    },
+    radioInput: {
+      cursor: "pointer",
+      accentColor: "#2563eb",
+    },
+    fieldGroup: {
+      backgroundColor: "white",
+      borderRadius: "16px",
+      padding: "1.5rem",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+      border: "1px solid #e5e7eb",
+      marginBottom: "1rem",
+    },
+    buttonPrimary: {
+      padding: "0.5rem 1rem",
+      backgroundColor: "#2563eb",
+      color: "white",
+      borderRadius: "6px",
+      border: "none",
+      cursor: "pointer",
+      fontWeight: "600",
+      transition: "background-color 0.2s ease",
+    },
+    buttonPrimaryHover: {
+      backgroundColor: "#1d4ed8",
+    },
+    buttonDisabled: {
+      backgroundColor: "#d1d5db",
+      cursor: "not-allowed",
+      opacity: 0.5,
+    },
+    buttonSecondary: {
+      padding: "0.5rem 1rem",
+      backgroundColor: "#e5e7eb",
+      color: "#374151",
+      borderRadius: "6px",
+      border: "none",
+      cursor: "pointer",
+      fontWeight: "600",
+      transition: "background-color 0.2s ease",
+    },
+    buttonSecondaryHover: {
+      backgroundColor: "#d1d5db",
+    },
   };
 
+  // Für Fokus-Handling bei Input/textarea (damit man Schatten anwendet) kann man useState verwenden:
+  const [focusedInput, setFocusedInput] = useState(null);
+
+  // Beispiel: Eingabefeld mit Fokus-Style:
+  function InputField({ value, onChange, placeholder, name }) {
+    const isFocused = focusedInput === name;
+    return (
+      <input
+        name={name}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          ...styles.inputField,
+          ...(isFocused ? styles.inputFieldFocus : {}),
+        }}
+        onFocus={() => setFocusedInput(name)}
+        onBlur={() => setFocusedInput(null)}
+      />
+    );
+  }
+
+  function TextareaField({ value, onChange, placeholder, name }) {
+    const isFocused = focusedInput === name;
+    return (
+      <textarea
+        name={name}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          ...styles.textareaField,
+          ...(isFocused ? styles.inputFieldFocus : {}),
+        }}
+        onFocus={() => setFocusedInput(name)}
+        onBlur={() => setFocusedInput(null)}
+      />
+    );
+  }
+
+  function RadioGroup({ name, options, selected, onChange, label }) {
+    return (
+      <div style={styles.radioGroup}>
+        {label && <p style={{ fontWeight: "600", fontSize: "0.9rem" }}>{label}</p>}
+        {options.map((opt) => (
+          <label key={opt} style={styles.radioLabel}>
+            <input
+              type="radio"
+              name={name}
+              value={opt}
+              checked={selected === opt}
+              onChange={e => onChange(e.target.value)}
+              style={styles.radioInput}
+            />
+            {opt}
+          </label>
+        ))}
+      </div>
+    );
+  }
+
   const FieldGroup = ({ children }) => (
-    <div className="bg-white rounded-2xl p-6 shadow space-y-4 border border-gray-200">
-      {children}
-    </div>
+    <div style={styles.fieldGroup}>{children}</div>
   );
 
   const steps = [
     {
-      label: "Minutaggio dell'episodio 1",
+      label: "Minutaggio dell'episodio 2",
       content: (
         <FieldGroup>
-          <input
-            placeholder="Minuto dell'episodio 1"
+          <InputField
+            name="minute"
+            placeholder="Minuto dell'episodio"
             value={formData.minute}
-            onChange={(e) => handleChange("minute", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("minute", val)}
           />
-          <div className="flex flex-col space-y-2 pt-2">
-            {[
+          <RadioGroup
+            name="situation"
+            options={[
               "durante un’azione di gioco",
               "durante un’interruzione di gioco",
               "alla fine di un periodo",
-            ].map((val) => (
-              <label key={val} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="situation"
-                  value={val}
-                  checked={formData.situation === val}
-                  onChange={(e) => handleChange("situation", e.target.value)}
-                  className="accent-blue-600"
-                />
-                {val}
-              </label>
-            ))}
-          </div>
+            ]}
+            selected={formData.situation}
+            onChange={val => handleChange("situation", val)}
+          />
         </FieldGroup>
       ),
     },
@@ -67,38 +213,29 @@ export default function Home() {
       label: "Giocatore in fallo",
       content: (
         <FieldGroup>
-          <input
+          <InputField
+            name="playerName"
             placeholder="Nome del giocatore"
             value={formData.playerName}
-            onChange={(e) => handleChange("playerName", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("playerName", val)}
           />
-          <input
+          <InputField
+            name="playerNumber"
             placeholder="Numero di maglia"
             value={formData.playerNumber}
-            onChange={(e) => handleChange("playerNumber", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("playerNumber", val)}
           />
-          <div className="flex flex-col space-y-2">
-            {["squadra di casa", "squadra ospite"].map((val) => (
-              <label key={val} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="teamType"
-                  value={val}
-                  checked={formData.teamType === val}
-                  onChange={(e) => handleChange("teamType", e.target.value)}
-                  className="accent-blue-600"
-                />
-                {val}
-              </label>
-            ))}
-          </div>
-          <input
+          <RadioGroup
+            name="teamType"
+            options={["squadra di casa", "squadra ospite"]}
+            selected={formData.teamType}
+            onChange={val => handleChange("teamType", val)}
+          />
+          <InputField
+            name="teamName"
             placeholder="Nome della squadra"
             value={formData.teamName}
-            onChange={(e) => handleChange("teamName", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("teamName", val)}
           />
         </FieldGroup>
       ),
@@ -107,11 +244,11 @@ export default function Home() {
       label: "Descrizione dell'azione",
       content: (
         <FieldGroup>
-          <textarea
+          <TextareaField
+            name="action"
             placeholder="Descrizione dettagliata dell'azione"
             value={formData.action}
-            onChange={(e) => handleChange("action", e.target.value)}
-            className="w-full min-h-[70vh] border border-gray-300 rounded px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("action", val)}
           />
         </FieldGroup>
       ),
@@ -120,180 +257,95 @@ export default function Home() {
       label: "Posizione sul campo",
       content: (
         <FieldGroup>
-          <div className="flex flex-col space-y-2">
-            <p className="font-semibold text-sm">Distanza dal disco:</p>
-            {[
+          <RadioGroup
+            name="puckDistance"
+            label="Distanza dal disco:"
+            options={[
               "vicino al disco/all'azione di gioco",
               "lontano dal disco/all'azione di gioco",
-            ].map((val) => (
-              <label key={val} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="puckDistance"
-                  value={val}
-                  checked={formData.puckDistance === val}
-                  onChange={(e) => handleChange("puckDistance", e.target.value)}
-                  className="accent-blue-600"
-                />
-                {val}
-              </label>
-            ))}
-          </div>
-          <div className="flex flex-col space-y-2 mt-4">
-            <p className="font-semibold text-sm">Zona del campo:</p>
-            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map(
-              (val) => (
-                <label key={val} className="flex items-center gap-2 text-sm">
-                  <input
-                    type="radio"
-                    name="fieldZone"
-                    value={val}
-                    checked={formData.fieldZone === val}
-                    onChange={(e) => handleChange("fieldZone", e.target.value)}
-                    className="accent-blue-600"
-                  />
-                  {val}
-                </label>
-              )
-            )}
-          </div>
-          <textarea
+            ]}
+            selected={formData.puckDistance}
+            onChange={val => handleChange("puckDistance", val)}
+          />
+          <RadioGroup
+            name="fieldZone"
+            label="Zona del campo:"
+            options={[
+              "lungo la balaustra",
+              "a centro pista",
+              "davanti alla porta",
+            ]}
+            selected={formData.fieldZone}
+            onChange={val => handleChange("fieldZone", val)}
+          />
+          <TextareaField
+            name="other"
             placeholder="Altro"
             value={formData.other}
-            onChange={(e) => handleChange("other", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 resize-none mt-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </FieldGroup>
-      ),
-    },
-    {
-      label: "Condizione del giocatore colpito",
-      content: (
-        <FieldGroup>
-          <div className="flex flex-col space-y-2">
-            {[
-              "ha dovuto ricevere cure mediche",
-              "ha ripreso subito la partita",
-              "ha ripreso la partita dopo qualche cambio",
-              "non ha più ripreso la partita",
-            ].map((val) => (
-              <label key={val} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="victimStatus"
-                  value={val}
-                  checked={formData.victimStatus === val}
-                  onChange={(e) => handleChange("victimStatus", e.target.value)}
-                  className="accent-blue-600"
-                />
-                {val}
-              </label>
-            ))}
-          </div>
-        </FieldGroup>
-      ),
-    },
-    {
-      label: "Tipo di penalità e regola",
-      content: (
-        <FieldGroup>
-          <div className="flex flex-col space-y-2">
-            {[
-              "di cattiva condotta (10’)",
-              "partita di cattiva condotta (20’)",
-              "maggiore + partita cattiva condotta (5’+20’)",
-            ].map((val) => (
-              <label key={val} className="flex items-center gap-2 text-sm">
-                <input
-                  type="radio"
-                  name="penaltyType"
-                  value={val}
-                  checked={formData.penaltyType === val}
-                  onChange={(e) => handleChange("penaltyType", e.target.value)}
-                  className="accent-blue-600"
-                />
-                {val}
-              </label>
-            ))}
-          </div>
-          <input
-            placeholder="Regola e descrizione (es. art. 50.3 – Kneeing)"
-            value={formData.rule}
-            onChange={(e) => handleChange("rule", e.target.value)}
-            className="w-full border border-gray-300 rounded px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </FieldGroup>
-      ),
-    },
-    {
-      label: "Commenti finali",
-      content: (
-        <FieldGroup>
-          <textarea
-            placeholder="Ulteriori commenti (facoltativi)"
-            value={formData.comments}
-            onChange={(e) => handleChange("comments", e.target.value)}
-            className="w-full min-h-[70vh] border border-gray-300 rounded px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={val => handleChange("other", val)}
           />
         </FieldGroup>
       ),
     },
   ];
 
- const isLastStep = step === steps.length;
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
-  const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
-
-  const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber},
-    squadra ${formData.teamType} (${formData.teamName}), ha compiuto l'azione seguente: ${formData.action}.
-    Posizione: ${formData.puckDistance}, ${formData.fieldZone}. Note aggiuntive: ${formData.other}.
-    Condizione del giocatore colpito: ${formData.victimStatus}.
-    Penalità: ${formData.penaltyType}. Regola: ${formData.rule}.
-    Commenti finali: ${formData.comments}`;
-  };
-
   return (
-    <>
-      <Head>
-        <title>Rapporto arbitrale GAHG</title>
-      </Head>
-      <main className="max-w-4xl mx-auto p-4">
-        {step < steps.length ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">{steps[step].label}</h2>
-            {steps[step].content}
-            <div className="flex justify-between mt-6">
-              <button
-                onClick={handlePrev}
-                disabled={step === 0}
-                className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-              >
-                Indietro
-              </button>
-              <button
-                onClick={handleNext}
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-              >
-                Avanti
-              </button>
-            </div>
-          </>
-        ) : (
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Rapporto Finale</h2>
-            <pre className="whitespace-pre-wrap bg-gray-100 p-4 rounded">
-              {generateText()}
-            </pre>
+    <main
+      style={{
+        maxWidth: "768px",
+        margin: "2rem auto",
+        padding: "1rem",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      {step < steps.length ? (
+        <>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: "600", marginBottom: "1rem" }}>
+            {steps[step].label}
+          </h2>
+          {steps[step].content}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "1.5rem",
+            }}
+          >
             <button
-              onClick={() => setStep(0)}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+              onClick={handlePrev}
+              disabled={step === 0}
+              style={{
+                ...styles.buttonSecondary,
+                ...(step === 0 ? styles.buttonDisabled : {}),
+              }}
             >
-              Modifica
+              Indietro
+            </button>
+            <button onClick={handleNext} style={styles.buttonPrimary}>
+              Avanti
             </button>
           </div>
-        )}
-      </main>
-    </>
+        </>
+      ) : (
+        <div>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: "600", marginBottom: "1rem" }}>
+            Rapporto Finale
+          </h2>
+          <pre
+            style={{
+              whiteSpace: "pre-wrap",
+              backgroundColor: "#f3f4f6",
+              padding: "1rem",
+              borderRadius: "8px",
+            }}
+          >
+            {JSON.stringify(formData, null, 2)}
+          </pre>
+          <button onClick={() => setStep(0)} style={{ ...styles.buttonPrimary, marginTop: "1rem" }}>
+            Modifica
+          </button>
+        </div>
+      )}
+    </main>
   );
 }
