@@ -152,7 +152,7 @@ export default function Home() {
           Il giocatore ha ... (continua qui)
           </label>
           <label style={{ marginBottom: "4px", display: "block" }}>
-          es. caricato un avversario all'altezza della testa, colpito un avversario con il bastone sulle gambe, ecc.
+          es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
           </label>
           <textarea
             style={textareaStyle}
@@ -222,7 +222,7 @@ export default function Home() {
             {[
               "NON ha dovuto ricevere cure mediche e ha ripreso subito la partita",
               "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
-              "ha dovuto ricevere cure mediche ha ripreso la partita dopo qualche cambio",
+              "ha dovuto ricevere cure mediche e ha ripreso la partita dopo qualche cambio",
               "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
             ].map((val) => (
               <label key={val}>
@@ -243,7 +243,7 @@ export default function Home() {
       ),
     },
     {
-      label: "Tipo di penalità e regola",
+      label: "Penalità inflitta",
       content: (
         <div style={groupStyle}>
           <div style={radioGroupStyle}>
@@ -272,7 +272,7 @@ export default function Home() {
           </label>
           <input
             style={inputStyle}
-            placeholder="(es. Art. 50.3 – Kneeing)"
+            placeholder="(es. art. 50.3 – Kneeing)"
             value={formData.rule}
             onChange={(e) => handleChange("rule", e.target.value)}
           />
@@ -299,12 +299,13 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber},
-squadra ${formData.teamType} (${formData.teamName}), ha compiuto l'azione seguente: ${formData.action}.
-Posizione: ${formData.puckDistance}, ${formData.fieldZone}. Note aggiuntive: ${formData.other}.
-Condizione del giocatore colpito: ${formData.victimStatus}.
-Penalità: ${formData.penaltyType}. Regola: ${formData.rule}.
-Commenti finali: ${formData.comments}`;
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber} della 
+squadra ${formData.teamType} (${formData.teamName}), ha ${formData.action}
+L'azione è accaduta  ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
+Si avvisa che il giocatore che ha subito il fallo ${formData.victimStatus}.
+In base a quanto accaduto è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} 
+del regolamento ufficiale di gioco IIHF.
+${formData.comments}`;
   };
 
   return (
