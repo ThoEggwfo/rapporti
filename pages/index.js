@@ -45,7 +45,7 @@ export default function Home() {
   const textareaStyle = {
     ...inputStyle,
     resize: "none",
-    height: "70vh",
+    height: "40vh",
   };
 
   const smallTextareaStyle = {
@@ -61,13 +61,22 @@ export default function Home() {
     marginBottom: "0.75rem",
   };
 
+  // Einheitliche Überschriften-Formatierung als Style
+  const headingStyle = {
+    fontSize: "1.5rem",
+    fontWeight: "600",
+    marginBottom: "1rem",
+    borderBottom: "2px solid #0070f3",
+    paddingBottom: "0.25rem",
+  };
+
   const steps = [
     {
       label: "Minutaggio dell'episodio 1.0",
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Minutaggio dell'episodio
+            Minutaggio dell'episodio
           </label>
           <input
             style={inputStyle}
@@ -79,7 +88,7 @@ export default function Home() {
             {[
               "durante un’azione di gioco",
               "durante un’interruzione di gioco",
-              "alla fine di un periodo",
+              "durante una pausa",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -100,8 +109,8 @@ export default function Home() {
       label: "Giocatore in fallo",
       content: (
         <div style={groupStyle}>
-                    <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Nome del giocatore
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+            Nome del giocatore
           </label>
           <input
             style={inputStyle}
@@ -109,8 +118,8 @@ export default function Home() {
             value={formData.playerName}
             onChange={(e) => handleChange("playerName", e.target.value)}
           />
-                    <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Numero di maglia
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+            Numero di maglia
           </label>
           <input
             style={inputStyle}
@@ -119,7 +128,7 @@ export default function Home() {
             onChange={(e) => handleChange("playerNumber", e.target.value)}
           />
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Nome della squadra
+            Nome della squadra
           </label>
           <input
             style={inputStyle}
@@ -127,7 +136,7 @@ export default function Home() {
             value={formData.teamName}
             onChange={(e) => handleChange("teamName", e.target.value)}
           />
-                    <div style={radioGroupStyle}>
+          <div style={radioGroupStyle}>
             {["squadra di casa", "squadra ospite"].map((val) => (
               <label key={val}>
                 <input
@@ -149,10 +158,10 @@ export default function Home() {
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Il giocatore ha ... (continua qui)
+            Il giocatore ha ... (continua qui)
           </label>
           <label style={{ marginBottom: "4px", display: "block" }}>
-          es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
+            es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
           </label>
           <textarea
             style={textareaStyle}
@@ -170,8 +179,8 @@ export default function Home() {
           <div style={radioGroupStyle}>
             <strong>Distanza dal disco:</strong>
             {[
-              "vicino al disco/all'azione di gioco",
-              "lontano dal disco/all'azione di gioco",
+              "nelle immediate vicinanze del disco",
+              "lontano dal disco, non direttamente coinvolta nell'azione di gioco",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -216,7 +225,7 @@ export default function Home() {
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Il giocatore ...
+            Il giocatore ...
           </label>
           <div style={radioGroupStyle}>
             {[
@@ -245,7 +254,11 @@ export default function Home() {
     {
       label: "Penalità inflitta",
       content: (
+        
         <div style={groupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+            Al giocatore è stata inflitta ...
+          </label>
           <div style={radioGroupStyle}>
             {[
               "una penalità di cattiva condotta (10’)",
@@ -268,7 +281,7 @@ export default function Home() {
             ))}
           </div>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-          Regola del regolamento IIHF e titolo della regola 
+            Regola del regolamento IIHF e titolo della regola 
           </label>
           <input
             style={inputStyle}
@@ -299,11 +312,18 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber} della squadra ${formData.teamType} (${formData.teamName}), ha ${formData.action}
-L'azione è accaduta  ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
-Si avvisa che il giocatore che ha subito il fallo ${formData.victimStatus}.
-In base a quanto accaduto è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action}
+L'azione si è svolta ${formData.fieldZone}, ${formData.other} ${formData.puckDistance}.
+Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}.
+In base a quanto rilevato, è stata inflitta una ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
+  };
+
+  const handleCopy = () => {
+    const text = generateText();
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Testo copiato negli appunti!");
+    });
   };
 
   return (
@@ -314,11 +334,15 @@ ${formData.comments}`;
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
         {step < steps.length ? (
           <>
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>
-              {steps[step].label}
-            </h2>
+            <h2 style={headingStyle}>{steps[step].label}</h2>
             {steps[step].content}
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "1.5rem",
+              }}
+            >
               <button
                 onClick={handlePrev}
                 disabled={step === 0}
@@ -327,6 +351,8 @@ ${formData.comments}`;
                   background: "#ccc",
                   borderRadius: "0.5rem",
                   opacity: step === 0 ? 0.5 : 1,
+                  border: "none",
+                  cursor: step === 0 ? "default" : "pointer",
                 }}
               >
                 Indietro
@@ -338,6 +364,8 @@ ${formData.comments}`;
                   background: "#0070f3",
                   color: "#fff",
                   borderRadius: "0.5rem",
+                  border: "none",
+                  cursor: "pointer",
                 }}
               >
                 Avanti
@@ -346,7 +374,7 @@ ${formData.comments}`;
           </>
         ) : (
           <div>
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>Rapporto Finale</h2>
+            <h2 style={headingStyle}>Rapporto Finale</h2>
             <pre
               style={{
                 whiteSpace: "pre-wrap",
@@ -357,6 +385,27 @@ ${formData.comments}`;
             >
               {generateText()}
             </pre>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "1rem",
+              }}
+            >
+              <button
+                onClick={handleCopy}
+                style={{
+                  padding: "0.5rem 1rem",
+                  background: "#0070f3",
+                  color: "#fff",
+                  borderRadius: "0.5rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Copia
+              </button>
+            </div>
             <button
               onClick={() => setStep(0)}
               style={{
@@ -365,6 +414,8 @@ ${formData.comments}`;
                 background: "#0070f3",
                 color: "#fff",
                 borderRadius: "0.5rem",
+                border: "none",
+                cursor: "pointer",
               }}
             >
               Modifica
