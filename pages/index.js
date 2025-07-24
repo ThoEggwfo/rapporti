@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Head from "next/head";
 
 export default function Home() {
-  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     minute: "",
     situation: "",
@@ -14,340 +12,342 @@ export default function Home() {
     puckDistance: "",
     fieldZone: "",
     other: "",
-    victimStatus: "",
-    penaltyType: "",
-    rule: "",
-    comments: "",
   });
 
-  const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const [step, setStep] = useState(0);
+
+  function handleChange(field, value) {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  }
+
+  function handleNext() {
+    setStep(prev => Math.min(prev + 1, steps.length));
+  }
+
+  function handlePrev() {
+    setStep(prev => Math.max(prev - 1, 0));
+  }
+
+  // Einfaches CSS-in-JS-Styles-Objekt:
+  const styles = {
+    inputField: {
+      width: "100%",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      padding: "0.5rem 1rem",
+      fontSize: "1rem",
+      fontFamily: "inherit",
+      outline: "none",
+      boxSizing: "border-box",
+      marginBottom: "0.5rem",
+      transition: "box-shadow 0.2s ease",
+    },
+    inputFieldFocus: {
+      boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.5)",
+      borderColor: "#3b82f6",
+    },
+    textareaField: {
+      width: "100%",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      padding: "0.5rem 1rem",
+      fontSize: "1rem",
+      fontFamily: "inherit",
+      outline: "none",
+      boxSizing: "border-box",
+      resize: "vertical",
+      marginTop: "0.5rem",
+      minHeight: "70vh",
+      transition: "box-shadow 0.2s ease",
+    },
+    radioGroup: {
+      display: "flex",
+      flexDirection: "column",
+      marginTop: "0.25rem",
+      marginBottom: "1rem",
+      gap: "0.5rem",
+    },
+    radioLabel: {
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      fontSize: "0.9rem",
+      cursor: "pointer",
+      userSelect: "none",
+    },
+    radioInput: {
+      cursor: "pointer",
+      accentColor: "#2563eb",
+    },
+    fieldGroup: {
+      backgroundColor: "white",
+      borderRadius: "16px",
+      padding: "1.5rem",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+      border: "1px solid #e5e7eb",
+      marginBottom: "1rem",
+    },
+    buttonPrimary: {
+      padding: "0.5rem 1rem",
+      backgroundColor: "#2563eb",
+      color: "white",
+      borderRadius: "6px",
+      border: "none",
+      cursor: "pointer",
+      fontWeight: "600",
+      transition: "background-color 0.2s ease",
+    },
+    buttonPrimaryHover: {
+      backgroundColor: "#1d4ed8",
+    },
+    buttonDisabled: {
+      backgroundColor: "#d1d5db",
+      cursor: "not-allowed",
+      opacity: 0.5,
+    },
+    buttonSecondary: {
+      padding: "0.5rem 1rem",
+      backgroundColor: "#e5e7eb",
+      color: "#374151",
+      borderRadius: "6px",
+      border: "none",
+      cursor: "pointer",
+      fontWeight: "600",
+      transition: "background-color 0.2s ease",
+    },
+    buttonSecondaryHover: {
+      backgroundColor: "#d1d5db",
+    },
   };
 
-  const groupStyle = {
-    background: "#fff",
-    padding: "1.5rem",
-    marginBottom: "1rem",
-    borderRadius: "1rem",
-    border: "1px solid #ddd",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-  };
+  // Für Fokus-Handling bei Input/textarea (damit man Schatten anwendet) kann man useState verwenden:
+  const [focusedInput, setFocusedInput] = useState(null);
 
-  const inputStyle = {
-    width: "100%",
-    padding: "0.5rem",
-    marginBottom: "0.75rem",
-    border: "1px solid #ccc",
-    borderRadius: "0.5rem",
-    fontSize: "1rem",
-  };
+  // Beispiel: Eingabefeld mit Fokus-Style:
+  function InputField({ value, onChange, placeholder, name }) {
+    const isFocused = focusedInput === name;
+    return (
+      <input
+        name={name}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          ...styles.inputField,
+          ...(isFocused ? styles.inputFieldFocus : {}),
+        }}
+        onFocus={() => setFocusedInput(name)}
+        onBlur={() => setFocusedInput(null)}
+      />
+    );
+  }
 
-  const textareaStyle = {
-    ...inputStyle,
-    resize: "none",
-    height: "70vh",
-  };
+  function TextareaField({ value, onChange, placeholder, name }) {
+    const isFocused = focusedInput === name;
+    return (
+      <textarea
+        name={name}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          ...styles.textareaField,
+          ...(isFocused ? styles.inputFieldFocus : {}),
+        }}
+        onFocus={() => setFocusedInput(name)}
+        onBlur={() => setFocusedInput(null)}
+      />
+    );
+  }
 
-  const smallTextareaStyle = {
-    ...inputStyle,
-    resize: "none",
-    height: "20vh",
-  };
+  function RadioGroup({ name, options, selected, onChange, label }) {
+    return (
+      <div style={styles.radioGroup}>
+        {label && <p style={{ fontWeight: "600", fontSize: "0.9rem" }}>{label}</p>}
+        {options.map((opt) => (
+          <label key={opt} style={styles.radioLabel}>
+            <input
+              type="radio"
+              name={name}
+              value={opt}
+              checked={selected === opt}
+              onChange={e => onChange(e.target.value)}
+              style={styles.radioInput}
+            />
+            {opt}
+          </label>
+        ))}
+      </div>
+    );
+  }
 
-  const radioGroupStyle = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "0.5rem",
-    marginBottom: "0.75rem",
-  };
+  const FieldGroup = ({ children }) => (
+    <div style={styles.fieldGroup}>{children}</div>
+  );
 
   const steps = [
     {
-      label: "Minutaggio dell'episodio 1",
+      label: "Minutaggio dell'episodio 2",
       content: (
-        <div style={groupStyle}>
-          <input
-            style={inputStyle}
-            placeholder="Minuto dell'episodio 1"
+        <FieldGroup>
+          <InputField
+            name="minute"
+            placeholder="Minuto dell'episodio"
             value={formData.minute}
-            onChange={(e) => handleChange("minute", e.target.value)}
+            onChange={val => handleChange("minute", val)}
           />
-          <div style={radioGroupStyle}>
-            {[
+          <RadioGroup
+            name="situation"
+            options={[
               "durante un’azione di gioco",
               "durante un’interruzione di gioco",
               "alla fine di un periodo",
-            ].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="situation"
-                  value={val}
-                  checked={formData.situation === val}
-                  onChange={(e) => handleChange("situation", e.target.value)}
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
-        </div>
+            ]}
+            selected={formData.situation}
+            onChange={val => handleChange("situation", val)}
+          />
+        </FieldGroup>
       ),
     },
     {
       label: "Giocatore in fallo",
       content: (
-        <div style={groupStyle}>
-          <input
-            style={inputStyle}
+        <FieldGroup>
+          <InputField
+            name="playerName"
             placeholder="Nome del giocatore"
             value={formData.playerName}
-            onChange={(e) => handleChange("playerName", e.target.value)}
+            onChange={val => handleChange("playerName", val)}
           />
-          <input
-            style={inputStyle}
+          <InputField
+            name="playerNumber"
             placeholder="Numero di maglia"
             value={formData.playerNumber}
-            onChange={(e) => handleChange("playerNumber", e.target.value)}
+            onChange={val => handleChange("playerNumber", val)}
           />
-          <div style={radioGroupStyle}>
-            {["squadra di casa", "squadra ospite"].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="teamType"
-                  value={val}
-                  checked={formData.teamType === val}
-                  onChange={(e) => handleChange("teamType", e.target.value)}
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
-          <input
-            style={inputStyle}
+          <RadioGroup
+            name="teamType"
+            options={["squadra di casa", "squadra ospite"]}
+            selected={formData.teamType}
+            onChange={val => handleChange("teamType", val)}
+          />
+          <InputField
+            name="teamName"
             placeholder="Nome della squadra"
             value={formData.teamName}
-            onChange={(e) => handleChange("teamName", e.target.value)}
+            onChange={val => handleChange("teamName", val)}
           />
-        </div>
+        </FieldGroup>
       ),
     },
     {
       label: "Descrizione dell'azione",
       content: (
-        <div style={groupStyle}>
-          <textarea
-            style={textareaStyle}
+        <FieldGroup>
+          <TextareaField
+            name="action"
             placeholder="Descrizione dettagliata dell'azione"
             value={formData.action}
-            onChange={(e) => handleChange("action", e.target.value)}
+            onChange={val => handleChange("action", val)}
           />
-        </div>
+        </FieldGroup>
       ),
     },
     {
-      label: "Posizione sul campo",
+      label: "Posizione in campo",
       content: (
-        <div style={groupStyle}>
-          <div style={radioGroupStyle}>
-            <strong>Distanza dal disco:</strong>
-            {[
+        <FieldGroup>
+          <RadioGroup
+            name="puckDistance"
+            label="Distanza dal disco:"
+            options={[
               "vicino al disco/all'azione di gioco",
               "lontano dal disco/all'azione di gioco",
-            ].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="puckDistance"
-                  value={val}
-                  checked={formData.puckDistance === val}
-                  onChange={(e) => handleChange("puckDistance", e.target.value)}
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
-          <div style={radioGroupStyle}>
-            <strong>Zona del campo:</strong>
-            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map(
-              (val) => (
-                <label key={val}>
-                  <input
-                    type="radio"
-                    name="fieldZone"
-                    value={val}
-                    checked={formData.fieldZone === val}
-                    onChange={(e) => handleChange("fieldZone", e.target.value)}
-                  />{" "}
-                  {val}
-                </label>
-              )
-            )}
-          </div>
-          <textarea
-            style={smallTextareaStyle}
+            ]}
+            selected={formData.puckDistance}
+            onChange={val => handleChange("puckDistance", val)}
+          />
+          <RadioGroup
+            name="fieldZone"
+            label="Zona del campo:"
+            options={[
+              "lungo la balaustra",
+              "a centro pista",
+              "davanti alla porta",
+            ]}
+            selected={formData.fieldZone}
+            onChange={val => handleChange("fieldZone", val)}
+          />
+          <TextareaField
+            name="other"
             placeholder="Altro"
             value={formData.other}
-            onChange={(e) => handleChange("other", e.target.value)}
+            onChange={val => handleChange("other", val)}
           />
-        </div>
-      ),
-    },
-    {
-      label: "Condizione del giocatore colpito",
-      content: (
-        <div style={groupStyle}>
-          <div style={radioGroupStyle}>
-            {[
-              "ha dovuto ricevere cure mediche",
-              "ha ripreso subito la partita",
-              "ha ripreso la partita dopo qualche cambio",
-              "non ha più ripreso la partita",
-            ].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="victimStatus"
-                  value={val}
-                  checked={formData.victimStatus === val}
-                  onChange={(e) =>
-                    handleChange("victimStatus", e.target.value)
-                  }
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
-        </div>
-      ),
-    },
-    {
-      label: "Tipo di penalità e regola",
-      content: (
-        <div style={groupStyle}>
-          <div style={radioGroupStyle}>
-            {[
-              "di cattiva condotta (10’)",
-              "partita di cattiva condotta (20’)",
-              "maggiore + partita cattiva condotta (5’+20’)",
-            ].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="penaltyType"
-                  value={val}
-                  checked={formData.penaltyType === val}
-                  onChange={(e) =>
-                    handleChange("penaltyType", e.target.value)
-                  }
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
-          <input
-            style={inputStyle}
-            placeholder="Regola e descrizione (es. art. 50.3 – Kneeing)"
-            value={formData.rule}
-            onChange={(e) => handleChange("rule", e.target.value)}
-          />
-        </div>
-      ),
-    },
-    {
-      label: "Commenti finali",
-      content: (
-        <div style={groupStyle}>
-          <textarea
-            style={textareaStyle}
-            placeholder="Ulteriori commenti (facoltativi)"
-            value={formData.comments}
-            onChange={(e) => handleChange("comments", e.target.value)}
-          />
-        </div>
+        </FieldGroup>
       ),
     },
   ];
 
-  const isLastStep = step === steps.length;
-  const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
-  const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
-
-  const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber},
-squadra ${formData.teamType} (${formData.teamName}), ha compiuto l'azione seguente: ${formData.action}.
-Posizione: ${formData.puckDistance}, ${formData.fieldZone}. Note aggiuntive: ${formData.other}.
-Condizione del giocatore colpito: ${formData.victimStatus}.
-Penalità: ${formData.penaltyType}. Regola: ${formData.rule}.
-Commenti finali: ${formData.comments}`;
-  };
-
   return (
-    <>
-      <Head>
-        <title>Rapporto arbitrale GAHG</title>
-      </Head>
-      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
-        {step < steps.length ? (
-          <>
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>
-              {steps[step].label}
-            </h2>
-            {steps[step].content}
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1.5rem" }}>
-              <button
-                onClick={handlePrev}
-                disabled={step === 0}
-                style={{
-                  padding: "0.5rem 1rem",
-                  background: "#ccc",
-                  borderRadius: "0.5rem",
-                  opacity: step === 0 ? 0.5 : 1,
-                }}
-              >
-                Indietro
-              </button>
-              <button
-                onClick={handleNext}
-                style={{
-                  padding: "0.5rem 1rem",
-                  background: "#0070f3",
-                  color: "#fff",
-                  borderRadius: "0.5rem",
-                }}
-              >
-                Avanti
-              </button>
-            </div>
-          </>
-        ) : (
-          <div>
-            <h2 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>Rapporto Finale</h2>
-            <pre
-              style={{
-                whiteSpace: "pre-wrap",
-                background: "#f3f3f3",
-                padding: "1rem",
-                borderRadius: "0.5rem",
-              }}
-            >
-              {generateText()}
-            </pre>
+    <main
+      style={{
+        maxWidth: "768px",
+        margin: "2rem auto",
+        padding: "1rem",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      {step < steps.length ? (
+        <>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: "600", marginBottom: "1rem" }}>
+            {steps[step].label}
+          </h2>
+          {steps[step].content}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "1.5rem",
+            }}
+          >
             <button
-              onClick={() => setStep(0)}
+              onClick={handlePrev}
+              disabled={step === 0}
               style={{
-                marginTop: "1rem",
-                padding: "0.5rem 1rem",
-                background: "#0070f3",
-                color: "#fff",
-                borderRadius: "0.5rem",
+                ...styles.buttonSecondary,
+                ...(step === 0 ? styles.buttonDisabled : {}),
               }}
             >
-              Modifica
+              Indietro
+            </button>
+            <button onClick={handleNext} style={styles.buttonPrimary}>
+              Avanti
             </button>
           </div>
-        )}
-      </main>
-    </>
+        </>
+      ) : (
+        <div>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: "600", marginBottom: "1rem" }}>
+            Rapporto Finale
+          </h2>
+          <pre
+            style={{
+              whiteSpace: "pre-wrap",
+              backgroundColor: "#f3f4f6",
+              padding: "1rem",
+              borderRadius: "8px",
+            }}
+          >
+            {JSON.stringify(formData, null, 2)}
+          </pre>
+          <button onClick={() => setStep(0)} style={{ ...styles.buttonPrimary, marginTop: "1rem" }}>
+            Modifica
+          </button>
+        </div>
+      )}
+    </main>
   );
 }
+
+
