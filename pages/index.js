@@ -299,12 +299,10 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber} della 
-squadra ${formData.teamType} (${formData.teamName}), ha ${formData.action}
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} n. ${formData.playerNumber} della squadra ${formData.teamType} (${formData.teamName}), ha ${formData.action}
 L'azione è accaduta  ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
 Si avvisa che il giocatore che ha subito il fallo ${formData.victimStatus}.
-In base a quanto accaduto è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} 
-del regolamento ufficiale di gioco IIHF.
+In base a quanto accaduto è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
