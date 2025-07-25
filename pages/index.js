@@ -61,7 +61,6 @@ export default function Home() {
     marginBottom: "0.75rem",
   };
 
-  // Einheitliche Überschriften-Formatierung als Style
   const headingStyle = {
     fontSize: "1.5rem",
     fontWeight: "600",
@@ -72,11 +71,11 @@ export default function Home() {
 
   const steps = [
     {
-      label: "Minutaggio dell'episodio 1.0",
+      label: "Momento dell'episodio",
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Minutaggio dell'episodio
+            Minuto dell'episodio
           </label>
           <input
             style={inputStyle}
@@ -196,20 +195,18 @@ export default function Home() {
           </div>
           <div style={radioGroupStyle}>
             <strong>Zona del campo:</strong>
-            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map(
-              (val) => (
-                <label key={val}>
-                  <input
-                    type="radio"
-                    name="fieldZone"
-                    value={val}
-                    checked={formData.fieldZone === val}
-                    onChange={(e) => handleChange("fieldZone", e.target.value)}
-                  />{" "}
-                  {val}
-                </label>
-              )
-            )}
+            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map((val) => (
+              <label key={val}>
+                <input
+                  type="radio"
+                  name="fieldZone"
+                  value={val}
+                  checked={formData.fieldZone === val}
+                  onChange={(e) => handleChange("fieldZone", e.target.value)}
+                />{" "}
+                {val}
+              </label>
+            ))}
           </div>
           <textarea
             style={smallTextareaStyle}
@@ -240,9 +237,7 @@ export default function Home() {
                   name="victimStatus"
                   value={val}
                   checked={formData.victimStatus === val}
-                  onChange={(e) =>
-                    handleChange("victimStatus", e.target.value)
-                  }
+                  onChange={(e) => handleChange("victimStatus", e.target.value)}
                 />{" "}
                 {val}
               </label>
@@ -254,7 +249,6 @@ export default function Home() {
     {
       label: "Penalità inflitta",
       content: (
-        
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
             Al giocatore è stata inflitta ...
@@ -271,36 +265,53 @@ export default function Home() {
                   name="penaltyType"
                   value={val}
                   checked={formData.penaltyType === val}
-                  onChange={(e) =>
-                    handleChange("penaltyType", e.target.value)
-                  }
+                  onChange={(e) => handleChange("penaltyType", e.target.value)}
                 />{" "}
                 {val}
               </label>
             ))}
           </div>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Regola del regolamento IIHF e titolo della regola 
-          </label>
-          <input
-            style={inputStyle}
-            placeholder="(es. art. 50.3 – Kneeing)"
-            value={formData.rule}
-            onChange={(e) => handleChange("rule", e.target.value)}
-          />
-           <label style={{marginBottom: "4px", display: "block" }}>
-            Esempi per articoli di 10' o 20': <br />
-            - art. 39.4 – Abuso agli ufficali di gara (10')<br />
-            - art. 39.5 – Abuso agli ufficali di gara (20')<br />
-            Esempi per articoli di 5'+20': <br />
-            - art. 41.4 – Carica in balaustra <br />
-            - art. 42.4 – Carica scoretta <br />
-            - art. 43.3 – Carica da dietro <br />
-            - art. 45.4 – Gomitata <br />
-            - art. 46.1 – Rissa/Fighting <br />
-            - art. 48.3 – Carica contro la testa <br />
-            - art. 50.3 – Ginocchiata <br />
-          </label>
+  Regola del regolamento IIHF e titolo della regola
+</label>
+<select
+  style={inputStyle}
+  value={formData.rule.startsWith("Altro:") ? "altro" : formData.rule}
+  onChange={(e) => {
+    const value = e.target.value;
+    if (value === "altro") {
+      handleChange("rule", "Altro:");
+    } else {
+      handleChange("rule", value);
+    }
+  }}
+>
+  <option value="">-- Seleziona la penalità --</option>
+  <option value="art. 39.4 – Abuso agli ufficiali di gara (10')">art. 39.4 – Abuso agli ufficiali di gara (10')</option>
+  <option value="art. 41.4 – Carica in balaustra">art. 41.4 – Carica in balaustra</option>
+  <option value="art. 42.4 – Carica scorretta">art. 42.4 – Carica scorretta</option>
+  <option value="art. 43.3 – Carica da dietro">art. 43.3 – Carica da dietro</option>
+  <option value="art. 45.4 – Gomitata">art. 45.4 – Gomitata</option>
+  <option value="art. 46.1 – Rissa / Fighting">art. 46.1 – Rissa / Fighting</option>
+  <option value="art. 48.3 – Carica contro la testa">art. 48.3 – Carica contro la testa</option>
+  <option value="art. 49.3 – Calciare">art. 49.3 – Calciare</option>
+  <option value="art. 50.3 – Ginocchiata">art. 50.3 – Ginocchiata</option>
+  <option value="art. 52.2 – Slew Footing">art. 52.2 – Slew Footing</option>
+  <option value="art. 59.3 – Colpo di bastone">art. 59.3 – Colpo di bastone</option>
+  <option value="art. 60.4 – Bastone alto">art. 60.4 – Bastone alto</option>
+  <option value="art. 62.3 – Spearing">art. 59.3 – Spearing</option>
+  <option value="altro">Altro...</option>
+</select>
+
+{formData.rule.startsWith("Altro:") && (
+  <input
+    style={{ ...inputStyle, marginTop: "0.5rem" }}
+    placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
+    value={formData.rule.replace("Altro:", "")}
+    onChange={(e) => handleChange("rule", "Altro:" + e.target.value)}
+  />
+)}
+
         </div>
       ),
     },
@@ -320,14 +331,13 @@ export default function Home() {
   ];
 
   const isLastStep = step === steps.length;
+
   const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action}
-L'azione si è svolta ${formData.fieldZone}, ${formData.other} ${formData.puckDistance}.
-Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}.
-In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone}, ${formData.other} ${formData.puckDistance}.
+Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
@@ -341,9 +351,16 @@ ${formData.comments}`;
   return (
     <>
       <Head>
-        <title>Rapporto arbitrale GAHG</title>
+        <title style={{color: "red"}}>Rapporto arbitrale GAHG</title>
       </Head>
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
+        <header style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
+          <img src="/logo.png" alt="Logo GAHG" style={{ height: "50px", marginRight: "1rem" }} />
+          <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3" }}>
+            GAHG - Rapporto arbitrale
+          </h1>
+        </header>
+
         {step < steps.length ? (
           <>
             <h2 style={headingStyle}>{steps[step].label}</h2>
@@ -387,16 +404,20 @@ ${formData.comments}`;
         ) : (
           <div>
             <h2 style={headingStyle}>Rapporto Finale</h2>
-            <pre
+            <textarea
               style={{
-                whiteSpace: "pre-wrap",
-                background: "#f3f3f3",
+                width: "100%",
                 padding: "1rem",
+                background: "#f3f3f3",
                 borderRadius: "0.5rem",
+                border: "1px solid #ccc",
+                resize: "vertical",
+                minHeight: "40vh",
+                fontSize: "1rem",
               }}
-            >
-              {generateText()}
-            </pre>
+              value={generateText()}
+              onChange={(e) => handleChange("comments", e.target.value)}
+            />
             <div
               style={{
                 display: "flex",
@@ -415,7 +436,7 @@ ${formData.comments}`;
                   cursor: "pointer",
                 }}
               >
-                Copia
+                Controlla e copia
               </button>
             </div>
             <button
