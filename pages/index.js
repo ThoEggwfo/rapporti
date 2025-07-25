@@ -287,7 +287,7 @@ export default function Home() {
   }}
 >
   <option value="">-- Seleziona la penalità --</option>
-  <option value="art. 39.4 – Abuso agli ufficiali di gara (10')">art. 39.4 – Abuso agli ufficiali di gara (10')</option>
+  <option value="art. 39 – Abuso agli ufficiali di gara">art. 39 – Abuso agli ufficiali di gara (10' o 20')</option>
   <option value="art. 41.4 – Carica in balaustra">art. 41.4 – Carica in balaustra</option>
   <option value="art. 42.4 – Carica scorretta">art. 42.4 – Carica scorretta</option>
   <option value="art. 43.3 – Carica da dietro">art. 43.3 – Carica da dietro</option>
@@ -438,7 +438,7 @@ ${formData.comments}`;
               >
                 Controlla e copia
               </button>
-            </div>
+
             <button
               onClick={() => setStep(0)}
               style={{
@@ -453,6 +453,7 @@ ${formData.comments}`;
             >
               Modifica
             </button>
+           </div>
           </div>
         )}
       </main>
