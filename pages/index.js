@@ -429,7 +429,7 @@ ${formData.comments}`;
                 onClick={handleCopy}
                 style={{
                   padding: "0.5rem 1rem",
-                  background: "#0070f3",
+                  background: "#00f371ff",
                   color: "#fff",
                   borderRadius: "0.5rem",
                   border: "none",
@@ -438,13 +438,13 @@ ${formData.comments}`;
               >
                 Controlla e copia
               </button>
-
+            </div>
             <button
               onClick={() => setStep(0)}
               style={{
                 marginTop: "1rem",
                 padding: "0.5rem 1rem",
-                background: "#0070f3",
+                background: "#f38e00ff",
                 color: "#fff",
                 borderRadius: "0.5rem",
                 border: "none",
@@ -453,7 +453,6 @@ ${formData.comments}`;
             >
               Modifica
             </button>
-           </div>
           </div>
         )}
       </main>
