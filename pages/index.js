@@ -336,7 +336,7 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone}, ${formData.other} ${formData.puckDistance}.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
 Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
@@ -355,7 +355,6 @@ ${formData.comments}`;
       </Head>
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
         <header style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
-          <img src="/logo.png" alt="Logo GAHG" style={{ height: "50px", marginRight: "1rem" }} />
           <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3" }}>
             GAHG - Rapporto arbitrale
           </h1>
@@ -444,7 +443,7 @@ ${formData.comments}`;
               style={{
                 marginTop: "1rem",
                 padding: "0.5rem 1rem",
-                background: "#f38e00ff",
+                background: "#0070f3",
                 color: "#fff",
                 borderRadius: "0.5rem",
                 border: "none",
