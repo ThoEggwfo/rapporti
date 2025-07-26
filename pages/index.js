@@ -28,6 +28,13 @@ export default function Home() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const fullVictimStatusText = {
+  no_cure: "non ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+  cure_subito: "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+  cure_dopo: "ha dovuto ricevere cure mediche e ha ripreso la partita dopo qualche cambio",
+  cure_niente: "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
+};
+
   const groupStyle = {
     background: "#fff",
     padding: "1.5rem",
@@ -226,27 +233,35 @@ export default function Home() {
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Il giocatore ...
+            Il giocatore ha dovuto ricevere cure mediche?
           </label>
           <div style={radioGroupStyle}>
-            {[
-              "NON ha dovuto ricevere cure mediche e ha ripreso subito la partita",
-              "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
-              "ha dovuto ricevere cure mediche e ha ripreso la partita dopo qualche cambio",
-              "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
-            ].map((val) => (
-              <label key={val}>
-                <input
-                  type="radio"
-                  name="victimStatus"
-                  value={val}
-                  checked={formData.victimStatus === val}
-                  onChange={(e) => handleChange("victimStatus", e.target.value)}
-                />{" "}
-                {val}
-              </label>
-            ))}
-          </div>
+  <strong>Condizione del giocatore colpito:</strong>
+  {[
+    { label: "No, ha ripreso subito", value: "no_cure" },
+    { label: "Sì, ha ripreso subito", value: "cure_subito" },
+    { label: "Sì, dopo qualche cambio", value: "cure_dopo" },
+    { label: "Sì, non ha più ripreso", value: "cure_niente" },
+  ].map(({ label, value }) => (
+    <label key={value}>
+      <input
+        type="radio"
+        name="victimStatus"
+        value={value}
+        checked={formData.victimStatus === value}
+        onChange={(e) => handleChange("victimStatus", e.target.value)}
+      />{" "}
+      {label}
+    </label>
+  ))}
+</div>
+
+{formData.victimStatus && (
+  <p style={{ marginTop: "0.5rem", fontStyle: "italic", color: "#555" }}>
+    {fullVictimStatusText[formData.victimStatus]}
+  </p>
+)}
+
         </div>
       ),
     },
@@ -342,7 +357,7 @@ export default function Home() {
 
   const generateText = () => {
     return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
-Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
