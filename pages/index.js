@@ -236,12 +236,11 @@ export default function Home() {
             Il giocatore ha dovuto ricevere cure mediche?
           </label>
           <div style={radioGroupStyle}>
-  <strong>Condizione del giocatore colpito:</strong>
   {[
     { label: "No, ha ripreso subito", value: "no_cure" },
-    { label: "Sì, ha ripreso subito", value: "cure_subito" },
-    { label: "Sì, dopo qualche cambio", value: "cure_dopo" },
-    { label: "Sì, non ha più ripreso", value: "cure_niente" },
+    { label: "Sì, ma ha ripreso subito", value: "cure_subito" },
+    { label: "Sì, ma ha ripreso dopo qualche cambio", value: "cure_dopo" },
+    { label: "Sì, ma non ha più ripreso", value: "cure_niente" },
   ].map(({ label, value }) => (
     <label key={value}>
       <input
