@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Head from "next/head";
 
+
 export default function Home() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -19,6 +20,9 @@ export default function Home() {
     rule: "",
     comments: "",
   });
+
+  
+  const [finalText, setFinalText] = useState("");
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -195,7 +199,7 @@ export default function Home() {
           </div>
           <div style={radioGroupStyle}>
             <strong>Zona del campo:</strong>
-            {["lungo la balaustra", "a centro pista", "davanti alla porta"].map((val) => (
+            {["lungo la balaustra", "a centro pista", "davanti alla porta", "davanti alle panche dei giocatori"].map((val) => (
               <label key={val}>
                 <input
                   type="radio"
@@ -210,7 +214,7 @@ export default function Home() {
           </div>
           <textarea
             style={smallTextareaStyle}
-            placeholder="Altro"
+            placeholder="Altra zona o dettaglio (facoltativo)"
             value={formData.other}
             onChange={(e) => handleChange("other", e.target.value)}
           />
@@ -251,7 +255,7 @@ export default function Home() {
       content: (
         <div style={groupStyle}>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Al giocatore è stata inflitta ...
+            Al giocatore è stata inflitta (oltre a eventuali penalità minori) ...
           </label>
           <div style={radioGroupStyle}>
             {[
@@ -272,7 +276,8 @@ export default function Home() {
             ))}
           </div>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-  Regola del regolamento IIHF e titolo della regola
+            <br/>
+  Regola del regolamento IIHF
 </label>
 <select
   style={inputStyle}
@@ -299,8 +304,8 @@ export default function Home() {
   <option value="art. 52.2 – Slew Footing">art. 52.2 – Slew Footing</option>
   <option value="art. 59.3 – Colpo di bastone">art. 59.3 – Colpo di bastone</option>
   <option value="art. 60.4 – Bastone alto">art. 60.4 – Bastone alto</option>
-  <option value="art. 62.3 – Spearing">art. 59.3 – Spearing</option>
-  <option value="altro">Altro...</option>
+  <option value="art. 62.3 – Spearing">art. 62.3 – Spearing</option>
+  <option value="altro">Altra penalità</option>
 </select>
 
 {formData.rule.startsWith("Altro:") && (
@@ -341,12 +346,20 @@ Si segnala che il giocatore che ha subito il fallo ${formData.victimStatus}. In 
 ${formData.comments}`;
   };
 
-  const handleCopy = () => {
-    const text = generateText();
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Testo copiato e pronto per FISG ONLINE!");
-    });
-  };
+useEffect(() => {
+  if (step === steps.length && finalText === "") {
+    setFinalText(generateText());
+  }
+}, [step]);
+
+
+const handleCopy = () => {
+  navigator.clipboard.writeText(finalText).then(() => {
+    alert("Testo copiato e pronto per FISG ONLINE!");
+  });
+};
+
+
 
   return (
     <>
@@ -356,7 +369,7 @@ ${formData.comments}`;
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
         <header style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
           <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3" }}>
-            GAHG - Rapporto arbitrale
+            Rapporto arbitrale
           </h1>
         </header>
 
@@ -414,8 +427,8 @@ ${formData.comments}`;
                 minHeight: "40vh",
                 fontSize: "1rem",
               }}
-              value={generateText()}
-              onChange={(e) => handleChange("comments", e.target.value)}
+                value={finalText}
+                onChange={(e) => setFinalText(e.target.value)}
             />
             <div
               style={{
@@ -428,7 +441,7 @@ ${formData.comments}`;
                 onClick={handleCopy}
                 style={{
                   padding: "0.5rem 1rem",
-                  background: "#00f371ff",
+                  background: "#068541ff",
                   color: "#fff",
                   borderRadius: "0.5rem",
                   border: "none",
