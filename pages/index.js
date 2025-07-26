@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 
@@ -430,41 +430,43 @@ const handleCopy = () => {
                 value={finalText}
                 onChange={(e) => setFinalText(e.target.value)}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginTop: "1rem",
-              }}
-            >
-              <button
-                onClick={handleCopy}
-                style={{
-                  padding: "0.5rem 1rem",
-                  background: "#068541ff",
-                  color: "#fff",
-                  borderRadius: "0.5rem",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                Controlla e copia
-              </button>
-            </div>
-            <button
-              onClick={() => setStep(0)}
-              style={{
-                marginTop: "1rem",
-                padding: "0.5rem 1rem",
-                background: "#0070f3",
-                color: "#fff",
-                borderRadius: "0.5rem",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Modifica
-            </button>
+           <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "1rem",
+    marginTop: "1.5rem",
+  }}
+>
+  <button
+    onClick={() => setStep(0)}
+    style={{
+      padding: "0.5rem 1rem",
+      background: "#0070f3",
+      color: "#fff",
+      borderRadius: "0.5rem",
+      border: "none",
+      cursor: "pointer",
+    }}
+  >
+    Modifica
+  </button>
+
+  <button
+    onClick={handleCopy}
+    style={{
+      padding: "0.5rem 1rem",
+      background: "#068541ff",
+      color: "#fff",
+      borderRadius: "0.5rem",
+      border: "none",
+      cursor: "pointer",
+    }}
+  >
+    Controlla e copia
+  </button>
+</div>
+
           </div>
         )}
       </main>
