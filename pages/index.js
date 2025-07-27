@@ -11,7 +11,7 @@ export default function Home() {
     playerNumber: "",
     teamType: "",
     teamName: "",
-    action: "",
+    action: "Il giocatore ha ",
     puckDistance: "",
     fieldZone: "",
     other: "",
@@ -164,25 +164,6 @@ export default function Home() {
       ),
     },
     {
-      label: "Descrizione dell'azione",
-      content: (
-        <div style={groupStyle}>
-          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Il giocatore ha ... (continua qui)
-          </label>
-          <label style={{ marginBottom: "4px", display: "block" }}>
-            es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
-          </label>
-          <textarea
-            style={textareaStyle}
-            placeholder="Descrizione dettagliata dell'azione"
-            value={formData.action}
-            onChange={(e) => handleChange("action", e.target.value)}
-          />
-        </div>
-      ),
-    },
-    {
       label: "Posizione",
       content: (
         <div style={groupStyle}>
@@ -254,13 +235,25 @@ export default function Home() {
     </label>
   ))}
 </div>
-
-{formData.victimStatus && (
-  <p style={{ marginTop: "0.5rem", fontStyle: "italic", color: "#555" }}>
-    {fullVictimStatusText[formData.victimStatus]}
-  </p>
-)}
-
+        </div>
+      ),
+    },
+    {
+      label: "Descrizione dell'azione",
+      content: (
+        <div style={groupStyle}>
+          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
+            Il giocatore ha ... (continua qui)
+          </label>
+          <label style={{ marginBottom: "4px", display: "block" }}>
+            es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
+          </label>
+          <textarea
+            style={textareaStyle}
+            placeholder="Descrizione dettagliata dell'azione"
+            value={formData.action}
+            onChange={(e) => handleChange("action", e.target.value)}
+          />
         </div>
       ),
     },
@@ -290,11 +283,19 @@ export default function Home() {
             ))}
           </div>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            <br/>
+  <br />
   Regola del regolamento IIHF
 </label>
 <select
-  style={inputStyle}
+  style={{
+    ...inputStyle,
+    padding: "0.75rem",
+    border: "1px solid #0070f3",
+    borderRadius: "0.75rem",
+    fontSize: "1rem",
+    backgroundColor: "#f9f9f9",
+    color: "#333",
+  }}
   value={formData.rule.startsWith("Altro:") ? "altro" : formData.rule}
   onChange={(e) => {
     const value = e.target.value;
@@ -306,30 +307,45 @@ export default function Home() {
   }}
 >
   <option value="">-- Seleziona la penalità --</option>
-  <option value="art. 39 – Abuso agli ufficiali di gara">art. 39 – Abuso agli ufficiali di gara (10' o 20')</option>
-  <option value="art. 41.4 – Carica in balaustra">art. 41.4 – Carica in balaustra</option>
-  <option value="art. 42.4 – Carica scorretta">art. 42.4 – Carica scorretta</option>
-  <option value="art. 43.3 – Carica da dietro">art. 43.3 – Carica da dietro</option>
-  <option value="art. 45.4 – Gomitata">art. 45.4 – Gomitata</option>
-  <option value="art. 46.1 – Rissa / Fighting">art. 46.1 – Rissa / Fighting</option>
-  <option value="art. 48.3 – Carica contro la testa">art. 48.3 – Carica contro la testa</option>
-  <option value="art. 49.3 – Calciare">art. 49.3 – Calciare</option>
-  <option value="art. 50.3 – Ginocchiata">art. 50.3 – Ginocchiata</option>
-  <option value="art. 52.2 – Slew Footing">art. 52.2 – Slew Footing</option>
-  <option value="art. 59.3 – Colpo di bastone">art. 59.3 – Colpo di bastone</option>
-  <option value="art. 60.4 – Bastone alto">art. 60.4 – Bastone alto</option>
-  <option value="art. 62.3 – Spearing">art. 62.3 – Spearing</option>
-  <option value="altro">Altra penalità</option>
+  {[
+    "art. 39 – Abuso agli ufficiali di gara (10' o 20')",
+    "art. 41.4 – Carica in balaustra",
+    "art. 42.4 – Carica scorretta",
+    "art. 43.3 – Carica da dietro",
+    "art. 45.4 – Gomitata",
+    "art. 46.1 – Rissa / Fighting",
+    "art. 48.3 – Carica contro la testa",
+    "art. 49.3 – Calciare",
+    "art. 50.3 – Ginocchiata",
+    "art. 52.2 – Slew Footing",
+    "art. 59.3 – Colpo di bastone",
+    "art. 60.4 – Bastone alto",
+    "art. 62.3 – Spearing",
+    "altro",
+  ].map((val) => (
+    <option key={val} value={val.startsWith("art.") ? val : "altro"}>
+      {val === "altro" ? "Altra penalità" : val}
+    </option>
+  ))}
 </select>
+
 
 {formData.rule.startsWith("Altro:") && (
   <input
-    style={{ ...inputStyle, marginTop: "0.5rem" }}
+    style={{
+      ...inputStyle,
+      marginTop: "0.5rem",
+      padding: "0.75rem",
+      border: "1px dashed #aaa",
+      borderRadius: "0.5rem",
+      fontStyle: "italic",
+    }}
     placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
     value={formData.rule.replace("Altro:", "")}
     onChange={(e) => handleChange("rule", "Altro:" + e.target.value)}
   />
 )}
+
 
         </div>
       ),
@@ -361,10 +377,10 @@ ${formData.comments}`;
   };
 
 useEffect(() => {
-  if (step === steps.length && finalText === "") {
+  if (step === steps.length) {
     setFinalText(generateText());
   }
-}, [step]);
+}, [step, formData]);
 
 
 const handleCopy = () => {
@@ -380,12 +396,39 @@ const handleCopy = () => {
       <Head>
         <title style={{color: "red"}}>Rapporto arbitrale GAHG</title>
       </Head>
-      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem" }}>
-        <header style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}>
-          <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3" }}>
-            Rapporto arbitrale
-          </h1>
-        </header>
+      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem", fontFamily: "'Inter', sans-serif"}}>
+<header style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}>
+  <img
+    src="/926c28fb-a054-48f4-9598-7fa1c267e58c.png"
+    alt="Logo"
+    style={{ height: "40px", width: "auto", objectFit: "contain" }}
+  />
+  <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3", margin: 0 }}>
+    Rapporto arbitrale
+  </h1>
+</header>
+
+<div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2rem" }}>
+  {steps.map((s, index) => (
+    <div
+      key={index}
+      style={{
+        flex: 1,
+        textAlign: "center",
+        padding: "0.5rem",
+        borderBottom: index === step ? "3px solid #0070f3" : "1px solid #ccc",
+        color: index === step ? "#0070f3" : "#666",
+        fontWeight: index === step ? "600" : "400",
+        fontSize: "0.9rem",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      }}
+    >
+      {s.label}
+    </div>
+  ))}
+</div>
 
         {step < steps.length ? (
           <>
