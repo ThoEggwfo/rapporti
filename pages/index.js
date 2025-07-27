@@ -265,7 +265,7 @@ export default function Home() {
             {[
               "una penalità di cattiva condotta (10’)",
               "una penalità partita di cattiva condotta (20’)",
-              "una penalità maggiore più penalità partita di cattiva condotta (5’+20’)",
+              "una penalità maggiore più una penalità partita di cattiva condotta (5’+20’)",
             ].map((val) => (
               <label key={val}>
                 <input
@@ -373,7 +373,7 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.cleanedAction} L'azione si è svolta ${formData.fieldZone.trim()} ${formData.other.trim()} ${formData.puckDistance.trim()}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${cleanedAction} L'azione si è svolta ${formData.fieldZone.trim()} ${formData.other.trim()} ${formData.puckDistance.trim()}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
