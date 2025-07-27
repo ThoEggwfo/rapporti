@@ -408,41 +408,42 @@ ${formData.comments}`;
           </h1>
         </header>
 
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2rem" }}>
-          {steps.map((_, index) => (
-            <div
-              key={index}
-              style={{
-                width: "20px",
-                height: "20px",
-                borderRadius: "50%",
-                backgroundColor: index === step ? "#0070f3" : "#ccc",
-                margin: "0 5px",
-                transition: "background-color 0.3s",
-              }}
-            />
-          ))}
-        </div>
-
-
         {step < steps.length ? (
           <>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-              <h2 style={headingStyle}>{steps[step].label}</h2>
-              <div style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                backgroundColor: "#0070f3",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontWeight: "700",
-                fontSize: "0.9rem",
-              }}>
-                {step + 1}
+            <div style={{ marginBottom: "1rem" }}>
+              {/* Zahlenleiste */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "12px",
+                  marginBottom: "1rem",
+                  userSelect: "none",
+                }}
+              >
+                {steps.map((s, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      backgroundColor: i === step ? "#0070f3" : "#ccc",
+                      color: i === step ? "white" : "#666",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "700",
+                      cursor: "default",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
               </div>
+
+              <h2 style={headingStyle}>{steps[step].label}</h2>
             </div>
 
             {steps[step].content}
@@ -484,23 +485,41 @@ ${formData.comments}`;
           </>
         ) : (
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-              <h2 style={headingStyle}>Rapporto Finale</h2>
-              <div style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                backgroundColor: "#0070f3",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontWeight: "700",
-                fontSize: "0.9rem",
-              }}>
-                {steps.length + 1}
+            <div style={{ marginBottom: "1rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "12px",
+                  marginBottom: "1rem",
+                  userSelect: "none",
+                }}
+              >
+                {[...steps, { label: "Rapporto Finale" }].map((s, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      backgroundColor: i === step ? "#0070f3" : "#ccc",
+                      color: i === step ? "white" : "#666",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "700",
+                      cursor: "default",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
               </div>
+
+              <h2 style={headingStyle}>Rapporto Finale</h2>
             </div>
+
 
             <textarea
               style={{
