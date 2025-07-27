@@ -427,7 +427,24 @@ ${formData.comments}`;
 
         {step < steps.length ? (
           <>
-            <h2 style={headingStyle}>{steps[step].label}</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h2 style={headingStyle}>{steps[step].label}</h2>
+              <div style={{
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                backgroundColor: "#0070f3",
+                color: "white",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+              }}>
+                {step + 1}
+              </div>
+            </div>
+
             {steps[step].content}
             <div
               style={{
@@ -467,7 +484,24 @@ ${formData.comments}`;
           </>
         ) : (
           <div>
-            <h2 style={headingStyle}>Rapporto Finale</h2>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h2 style={headingStyle}>Rapporto Finale</h2>
+              <div style={{
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                backgroundColor: "#0070f3",
+                color: "white",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+              }}>
+                {steps.length + 1}
+              </div>
+            </div>
+
             <textarea
               style={{
                 width: "100%",
