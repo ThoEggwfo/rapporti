@@ -305,19 +305,19 @@ export default function Home() {
           >
             <option value="">-- Seleziona la penalità --</option>
             {[
-              "art. 39 – Abuso agli ufficiali di gara (10' o 20')",
-              "art. 41.4 – Carica in balaustra",
-              "art. 42.4 – Carica scorretta",
-              "art. 43.3 – Carica da dietro",
-              "art. 45.4 – Gomitata",
-              "art. 46.1 – Rissa / Fighting",
-              "art. 48.3 – Carica contro la testa",
-              "art. 49.3 – Calciare",
-              "art. 50.3 – Ginocchiata",
-              "art. 52.2 – Slew Footing",
-              "art. 59.3 – Colpo di bastone",
-              "art. 60.4 – Bastone alto",
-              "art. 62.3 – Spearing",
+              "art. 39 – 'Abuso agli ufficiali di gara'",
+              "art. 41.4 – 'Carica in balaustra'",
+              "art. 42.4 – 'Carica scorretta'",
+              "art. 43.3 – 'Carica da dietro'",
+              "art. 45.4 – 'Gomitata'",
+              "art. 46.1 – 'Rissa / Fighting'",
+              "art. 48.3 – 'Carica contro la testa'",
+              "art. 49.3 – 'Calciare'",
+              "art. 50.3 – 'Ginocchiata'",
+              "art. 52.2 – 'Slew Footing'",
+              "art. 59.3 – 'Colpo di bastone'",
+              "art. 60.4 – 'Bastone alto'",
+              "art. 62.3 – 'Spearing'",
               "altro",
             ].map((val) => (
               <option key={val} value={val.startsWith("art.") ? val : "altro"}>
@@ -362,13 +362,18 @@ export default function Home() {
     },
   ];
 
+  const cleanedAction = formData.action.trim().startsWith("Il giocatore ha")
+  ? formData.action.replace(/^Il giocatore ha\s*/i, "")
+  : formData.action;
+
+
   const isLastStep = step === steps.length;
 
   const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length));
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone} ${formData.other} ${formData.puckDistance}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.cleanedAction} L'azione si è svolta ${formData.fieldZone.trim()} ${formData.other.trim()} ${formData.puckDistance.trim()}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
