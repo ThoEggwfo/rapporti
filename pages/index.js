@@ -242,11 +242,8 @@ export default function Home() {
       label: "Descrizione dell'azione",
       content: (
         <div style={groupStyle}>
-          <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-            Il giocatore ha ... (continua qui)
-          </label>
           <label style={{ marginBottom: "4px", display: "block" }}>
-            es. caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
+            es. Il giocatore ha caricato l'avversario all'altezza della testa, colpito violentamente l'avversario con il bastone sulle gambe, ecc.
           </label>
           <textarea
             style={textareaStyle}
@@ -371,8 +368,7 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone} ${formData.other} ${formData.puckDistance}.
-Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${formData.action} L'azione si è svolta ${formData.fieldZone} ${formData.other} ${formData.puckDistance}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
@@ -410,49 +406,7 @@ ${formData.comments}`;
 
         {step < steps.length ? (
           <>
-            <div style={{ marginBottom: "1rem" }}>
-              {/* Zahlenleiste */}
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "1rem"
-              }}>
-                <h2 style={headingStyle}>{steps[step].label}</h2>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "6px",
-                    userSelect: "none",
-                  }}
-                >
-                  {steps.map((s, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        width: "24px",
-                        height: "24px",
-                        borderRadius: "50%",
-                        backgroundColor: i === step ? "#0070f3" : "#ccc",
-                        color: i === step ? "white" : "#666",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontWeight: "700",
-                        cursor: "default",
-                        fontSize: "0.8rem",
-                      }}
-                    >
-                      {i + 1}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-
-              <h2 style={headingStyle}>{steps[step].label}</h2>
-            </div>
+            <h2 style={headingStyle}>{steps[step].label}</h2>
 
             {steps[step].content}
             <div
