@@ -21,7 +21,7 @@ export default function Home() {
     comments: "",
   });
 
-  
+
   const [finalText, setFinalText] = useState("");
 
   const handleChange = (field, value) => {
@@ -29,11 +29,11 @@ export default function Home() {
   };
 
   const fullVictimStatusText = {
-  no_cure: "non ha dovuto ricevere cure mediche e ha ripreso subito la partita",
-  cure_subito: "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
-  cure_dopo: "ha dovuto ricevere cure mediche e ha ripreso la partita dopo qualche cambio",
-  cure_niente: "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
-};
+    no_cure: "non ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+    cure_subito: "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
+    cure_dopo: "ha dovuto ricevere cure mediche e ha ripreso la partita dopo qualche cambio",
+    cure_niente: "ha dovuto ricevere cure mediche e non ha più ripreso la partita",
+  };
 
   const groupStyle = {
     background: "#fff",
@@ -217,24 +217,24 @@ export default function Home() {
             Il giocatore ha dovuto ricevere cure mediche?
           </label>
           <div style={radioGroupStyle}>
-  {[
-    { label: "No, ha ripreso subito", value: "no_cure" },
-    { label: "Sì, ma ha ripreso subito", value: "cure_subito" },
-    { label: "Sì, ma ha ripreso dopo qualche cambio", value: "cure_dopo" },
-    { label: "Sì, ma non ha più ripreso", value: "cure_niente" },
-  ].map(({ label, value }) => (
-    <label key={value}>
-      <input
-        type="radio"
-        name="victimStatus"
-        value={value}
-        checked={formData.victimStatus === value}
-        onChange={(e) => handleChange("victimStatus", e.target.value)}
-      />{" "}
-      {label}
-    </label>
-  ))}
-</div>
+            {[
+              { label: "No, ha ripreso subito", value: "no_cure" },
+              { label: "Sì, ma ha ripreso subito", value: "cure_subito" },
+              { label: "Sì, ma ha ripreso dopo qualche cambio", value: "cure_dopo" },
+              { label: "Sì, ma non ha più ripreso", value: "cure_niente" },
+            ].map(({ label, value }) => (
+              <label key={value}>
+                <input
+                  type="radio"
+                  name="victimStatus"
+                  value={value}
+                  checked={formData.victimStatus === value}
+                  onChange={(e) => handleChange("victimStatus", e.target.value)}
+                />{" "}
+                {label}
+              </label>
+            ))}
+          </div>
         </div>
       ),
     },
@@ -283,68 +283,68 @@ export default function Home() {
             ))}
           </div>
           <label style={{ fontWeight: "bold", marginBottom: "4px", display: "block" }}>
-  <br />
-  Regola del regolamento IIHF
-</label>
-<select
-  style={{
-    ...inputStyle,
-    padding: "0.75rem",
-    border: "1px solid #0070f3",
-    borderRadius: "0.75rem",
-    fontSize: "1rem",
-    backgroundColor: "#f9f9f9",
-    color: "#333",
-  }}
-  value={formData.rule.startsWith("Altro:") ? "altro" : formData.rule}
-  onChange={(e) => {
-    const value = e.target.value;
-    if (value === "altro") {
-      handleChange("rule", "Altro:");
-    } else {
-      handleChange("rule", value);
-    }
-  }}
->
-  <option value="">-- Seleziona la penalità --</option>
-  {[
-    "art. 39 – Abuso agli ufficiali di gara (10' o 20')",
-    "art. 41.4 – Carica in balaustra",
-    "art. 42.4 – Carica scorretta",
-    "art. 43.3 – Carica da dietro",
-    "art. 45.4 – Gomitata",
-    "art. 46.1 – Rissa / Fighting",
-    "art. 48.3 – Carica contro la testa",
-    "art. 49.3 – Calciare",
-    "art. 50.3 – Ginocchiata",
-    "art. 52.2 – Slew Footing",
-    "art. 59.3 – Colpo di bastone",
-    "art. 60.4 – Bastone alto",
-    "art. 62.3 – Spearing",
-    "altro",
-  ].map((val) => (
-    <option key={val} value={val.startsWith("art.") ? val : "altro"}>
-      {val === "altro" ? "Altra penalità" : val}
-    </option>
-  ))}
-</select>
+            <br />
+            Regola del regolamento IIHF
+          </label>
+          <select
+            style={{
+              ...inputStyle,
+              padding: "0.75rem",
+              border: "1px solid #0070f3",
+              borderRadius: "0.75rem",
+              fontSize: "1rem",
+              backgroundColor: "#f9f9f9",
+              color: "#333",
+            }}
+            value={formData.rule.startsWith("Altro:") ? "altro" : formData.rule}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === "altro") {
+                handleChange("rule", "Altro:");
+              } else {
+                handleChange("rule", value);
+              }
+            }}
+          >
+            <option value="">-- Seleziona la penalità --</option>
+            {[
+              "art. 39 – Abuso agli ufficiali di gara (10' o 20')",
+              "art. 41.4 – Carica in balaustra",
+              "art. 42.4 – Carica scorretta",
+              "art. 43.3 – Carica da dietro",
+              "art. 45.4 – Gomitata",
+              "art. 46.1 – Rissa / Fighting",
+              "art. 48.3 – Carica contro la testa",
+              "art. 49.3 – Calciare",
+              "art. 50.3 – Ginocchiata",
+              "art. 52.2 – Slew Footing",
+              "art. 59.3 – Colpo di bastone",
+              "art. 60.4 – Bastone alto",
+              "art. 62.3 – Spearing",
+              "altro",
+            ].map((val) => (
+              <option key={val} value={val.startsWith("art.") ? val : "altro"}>
+                {val === "altro" ? "Altra penalità" : val}
+              </option>
+            ))}
+          </select>
 
 
-{formData.rule.startsWith("Altro:") && (
-  <input
-    style={{
-      ...inputStyle,
-      marginTop: "0.5rem",
-      padding: "0.75rem",
-      border: "1px dashed #aaa",
-      borderRadius: "0.5rem",
-      fontStyle: "italic",
-    }}
-    placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
-    value={formData.rule.replace("Altro:", "")}
-    onChange={(e) => handleChange("rule", "Altro:" + e.target.value)}
-  />
-)}
+          {formData.rule.startsWith("Altro:") && (
+            <input
+              style={{
+                ...inputStyle,
+                marginTop: "0.5rem",
+                padding: "0.75rem",
+                border: "1px dashed #aaa",
+                borderRadius: "0.5rem",
+                fontStyle: "italic",
+              }}
+              placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
+              value={formData.rule.replace("Altro:", "")}
+              onChange={(e) => handleChange("rule", "Altro:" + e.target.value)}
+            />
+          )}
 
 
         </div>
@@ -376,59 +376,54 @@ Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formDa
 ${formData.comments}`;
   };
 
-useEffect(() => {
-  if (step === steps.length) {
-    setFinalText(generateText());
-  }
-}, [step, formData]);
+  useEffect(() => {
+    if (step === steps.length) {
+      setFinalText(generateText());
+    }
+  }, [step, formData]);
 
 
-const handleCopy = () => {
-  navigator.clipboard.writeText(finalText).then(() => {
-    alert("Testo copiato e pronto per FISG ONLINE!");
-  });
-};
+  const handleCopy = () => {
+    navigator.clipboard.writeText(finalText).then(() => {
+      alert("Testo copiato e pronto per FISG ONLINE!");
+    });
+  };
 
 
 
   return (
     <>
       <Head>
-        <title style={{color: "red"}}>Rapporto arbitrale GAHG</title>
+        <title style={{ color: "red" }}>Rapporto arbitrale GAHG</title>
       </Head>
-      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem", fontFamily: "'Inter', sans-serif"}}>
-<header style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}>
-  <img
-    src="/926c28fb-a054-48f4-9598-7fa1c267e58c.png"
-    alt="Logo"
-    style={{ height: "40px", width: "auto", objectFit: "contain" }}
-  />
-  <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3", margin: 0 }}>
-    Rapporto arbitrale
-  </h1>
-</header>
+      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "1rem", fontFamily: "'Inter', sans-serif" }}>
+        <header style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "2rem" }}>
+          <img
+            src="/Logo.png"
+            alt="Logo"
+            style={{ height: "40px", width: "auto", objectFit: "contain" }}
+          />
+          <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3", margin: 0 }}>
+            Rapporto arbitrale
+          </h1>
+        </header>
 
-<div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2rem" }}>
-  {steps.map((s, index) => (
-    <div
-      key={index}
-      style={{
-        flex: 1,
-        textAlign: "center",
-        padding: "0.5rem",
-        borderBottom: index === step ? "3px solid #0070f3" : "1px solid #ccc",
-        color: index === step ? "#0070f3" : "#666",
-        fontWeight: index === step ? "600" : "400",
-        fontSize: "0.9rem",
-        whiteSpace: "nowrap",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-      }}
-    >
-      {s.label}
-    </div>
-  ))}
-</div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2rem" }}>
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              style={{
+                width: "20px",
+                height: "20px",
+                borderRadius: "50%",
+                backgroundColor: index === step ? "#0070f3" : "#ccc",
+                margin: "0 5px",
+                transition: "background-color 0.3s",
+              }}
+            />
+          ))}
+        </div>
+
 
         {step < steps.length ? (
           <>
@@ -484,45 +479,45 @@ const handleCopy = () => {
                 minHeight: "40vh",
                 fontSize: "1rem",
               }}
-                value={finalText}
-                onChange={(e) => setFinalText(e.target.value)}
+              value={finalText}
+              onChange={(e) => setFinalText(e.target.value)}
             />
-           <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "1rem",
-    marginTop: "1.5rem",
-  }}
->
-  <button
-    onClick={() => setStep(0)}
-    style={{
-      padding: "0.5rem 1rem",
-      background: "#0070f3",
-      color: "#fff",
-      borderRadius: "0.5rem",
-      border: "none",
-      cursor: "pointer",
-    }}
-  >
-    Modifica
-  </button>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "1rem",
+                marginTop: "1.5rem",
+              }}
+            >
+              <button
+                onClick={() => setStep(0)}
+                style={{
+                  padding: "0.5rem 1rem",
+                  background: "#0070f3",
+                  color: "#fff",
+                  borderRadius: "0.5rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Modifica
+              </button>
 
-  <button
-    onClick={handleCopy}
-    style={{
-      padding: "0.5rem 1rem",
-      background: "#068541ff",
-      color: "#fff",
-      borderRadius: "0.5rem",
-      border: "none",
-      cursor: "pointer",
-    }}
-  >
-    Controlla e copia
-  </button>
-</div>
+              <button
+                onClick={handleCopy}
+                style={{
+                  padding: "0.5rem 1rem",
+                  background: "#068541ff",
+                  color: "#fff",
+                  borderRadius: "0.5rem",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Controlla e copia
+              </button>
+            </div>
 
           </div>
         )}
