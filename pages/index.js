@@ -28,6 +28,8 @@ export default function Home() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const penaltyRuleText = formData.rule === "altro" ? formData.manualRule : formData.rule;
+
   const fullVictimStatusText = {
     no_cure: "non ha dovuto ricevere cure mediche e ha ripreso subito la partita",
     cure_subito: "ha dovuto ricevere cure mediche e ha ripreso subito la partita",
@@ -294,15 +296,8 @@ export default function Home() {
               color: "#333",
               width: "99%",
             }}
-            value={steps.includes(formData.rule) ? formData.rule : "altro"} // "altro" wenn rule kein Select-Wert ist
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === "altro") {
-                handleChange("rule", ""); // leer = zeigt Textbox an
-              } else {
-                handleChange("rule", val);
-              }
-            }}
+            value={formData.rule}
+            onChange={(e) => handleChange("rule", e.target.value)}
           >
             <option value="">-- Seleziona la penalità --</option>
             {[
@@ -327,7 +322,7 @@ export default function Home() {
             <option value="altro">Altra penalità</option>
           </select>
 
-          {formData.rule === "" && (
+          {formData.rule === "altro" && (
             <input
               style={{
                 ...inputStyle,
@@ -338,8 +333,8 @@ export default function Home() {
                 fontStyle: "italic",
               }}
               placeholder="Inserisci manualmente (es. 58.3 – Colpo col pomolo del bastone)"
-              value={formData.rule} // hier speichern wir den manuellen Text in formData.rule
-              onChange={(e) => handleChange("rule", e.target.value)}
+              value={formData.manualRule || ""}
+              onChange={(e) => handleChange("manualRule", e.target.value)}
             />
           )}
 
@@ -373,7 +368,7 @@ export default function Home() {
   const handlePrev = () => setStep((prev) => Math.max(prev - 1, 0));
 
   const generateText = () => {
-    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${cleanedAction} L'azione si è svolta ${formData.fieldZone.trim()} ${formData.other.trim()} ${formData.puckDistance.trim()}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.rule} del regolamento ufficiale di gioco IIHF.
+    return `Al minuto ${formData.minute}, ${formData.situation}, il giocatore ${formData.playerName} (numero ${formData.playerNumber}) della ${formData.teamType} (${formData.teamName}), ha ${cleanedAction} L'azione si è svolta ${formData.fieldZone.trim()} ${formData.other.trim()} ${formData.puckDistance.trim()}. Si segnala che il giocatore che ha subito il fallo ${fullVictimStatusText[formData.victimStatus]}. In base a quanto rilevato, è stata inflitta ${formData.penaltyType} al giocatore ${formData.playerName} in base all' ${formData.penaltyRuleText} del regolamento ufficiale di gioco IIHF.
 ${formData.comments}`;
   };
 
