@@ -80,14 +80,6 @@ export default function Home() {
     paddingBottom: "0.25rem",
   };
 
-  const [visits, setVisits] = useState(0);
-  useEffect(() => {
-    const stored = localStorage.getItem("visitCounter");
-    const count = stored ? parseInt(stored, 10) + 1 : 1;
-    localStorage.setItem("visitCounter", count.toString());
-    setVisits(count);
-  }, []);
-
   const steps = [
     {
       label: "Momento dell'episodio",
@@ -306,8 +298,6 @@ export default function Home() {
               const value = e.target.value;
               handleChange("rule", value === "altro" ? "" : value);
             }}
-
-
           >
             <option value="">-- Seleziona la penalità --</option>
             {[
@@ -326,12 +316,11 @@ export default function Home() {
               "Art. 62.3 – 'Spearing'",
               "Altro",
             ].map((val) => (
-              <option key={val} value={val.startsWith("art.") ? val : "altro"}>
-                {val === "altro" ? "Altra penalità" : val}
+              <option key={val} value={val.toLowerCase() === "altro" ? "altro" : val}>
+                {val.toLowerCase() === "altro" ? "Altra penalità" : val}
               </option>
             ))}
           </select>
-
 
           {formData.rule === "" && (
             <input
@@ -343,9 +332,9 @@ export default function Home() {
                 borderRadius: "0.5rem",
                 fontStyle: "italic",
               }}
-              placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
-              value={formData.rule}
-              onChange={(e) => handleChange("rule", e.target.value)}
+              placeholder="Inserisci manualmente (es. 58.3 – Colpo col pomolo del bastone)"
+              value={formData.altroText || ""}
+              onChange={(e) => handleChange("altroText", e.target.value)}
             />
           )}
 
@@ -454,20 +443,6 @@ ${formData.comments}`;
               >
                 Avanti
               </button>
-
-              <div style={{
-                position: "fixed",
-                bottom: "10px",
-                right: "10px",
-                fontSize: "0.55rem",
-                background: "#eee",
-                padding: "6px 10px",
-                borderRadius: "8px",
-                boxShadow: "0 0 4px rgba(0, 0, 0, 0.16)"
-              }}>
-                Visualizzazioni: {visits}
-              </div>
-
             </div>
           </>
         ) : (
