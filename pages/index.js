@@ -292,11 +292,16 @@ export default function Home() {
               fontSize: "1rem",
               backgroundColor: "#f9f9f9",
               color: "#333",
+              width: "99%",
             }}
-            value={formData.rule === "" ? "altro" : formData.rule}
+            value={steps.includes(formData.rule) ? formData.rule : "altro"} // "altro" wenn rule kein Select-Wert ist
             onChange={(e) => {
-              const value = e.target.value;
-              handleChange("rule", value === "altro" ? "" : value);
+              const val = e.target.value;
+              if (val === "altro") {
+                handleChange("rule", ""); // leer = zeigt Textbox an
+              } else {
+                handleChange("rule", val);
+              }
             }}
           >
             <option value="">-- Seleziona la penalità --</option>
@@ -314,12 +319,12 @@ export default function Home() {
               "Art. 59.3 – 'Colpo di bastone'",
               "Art. 60.4 – 'Bastone alto'",
               "Art. 62.3 – 'Spearing'",
-              "Altro",
             ].map((val) => (
-              <option key={val} value={val.toLowerCase() === "altro" ? "altro" : val}>
-                {val.toLowerCase() === "altro" ? "Altra penalità" : val}
+              <option key={val} value={val}>
+                {val}
               </option>
             ))}
+            <option value="altro">Altra penalità</option>
           </select>
 
           {formData.rule === "" && (
@@ -333,8 +338,8 @@ export default function Home() {
                 fontStyle: "italic",
               }}
               placeholder="Inserisci manualmente (es. 58.3 – Colpo col pomolo del bastone)"
-              value={formData.altroText || ""}
-              onChange={(e) => handleChange("altroText", e.target.value)}
+              value={formData.rule} // hier speichern wir den manuellen Text in formData.rule
+              onChange={(e) => handleChange("rule", e.target.value)}
             />
           )}
 
