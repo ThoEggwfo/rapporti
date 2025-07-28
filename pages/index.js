@@ -19,6 +19,7 @@ export default function Home() {
     penaltyType: "",
     rule: "",
     comments: "",
+    manualRule: "",
   });
 
 
@@ -28,7 +29,10 @@ export default function Home() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const penaltyRuleText = formData.rule === "altro" ? formData.manualRule : formData.rule;
+const penaltyRuleText = formData.rule === "altro"
+  ? (formData.manualRule || "")
+  : (formData.rule || "");
+
 
   const fullVictimStatusText = {
     no_cure: "non ha dovuto ricevere cure mediche e ha ripreso subito la partita",
@@ -334,7 +338,7 @@ export default function Home() {
               }}
               placeholder="Inserisci manualmente (es. 58.3 – Colpo col pomolo del bastone)"
               value={formData.manualRule || ""}
-              onChange={(e) => handleChange("manualRule", e.target.value)}
+              onChange={e => setFormData({ ...formData, manualRule: e.target.value })}
             />
           )}
 
