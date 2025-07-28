@@ -182,7 +182,7 @@ export default function Home() {
             <strong>Distanza dal disco:</strong>
             {[
               "nelle immediate vicinanze del disco",
-              "lontano dal disco, non direttamente coinvolta nell'azione di gioco",
+              "lontano dal disco, e non è stata direttamente coinvolta nell'azione di gioco",
             ].map((val) => (
               <label key={val}>
                 <input
