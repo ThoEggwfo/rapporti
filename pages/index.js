@@ -80,6 +80,14 @@ export default function Home() {
     paddingBottom: "0.25rem",
   };
 
+  const [visits, setVisits] = useState(0);
+  useEffect(() => {
+    const stored = localStorage.getItem("visitCounter");
+    const count = stored ? parseInt(stored, 10) + 1 : 1;
+    localStorage.setItem("visitCounter", count.toString());
+    setVisits(count);
+  }, []);
+
   const steps = [
     {
       label: "Momento dell'episodio",
@@ -293,32 +301,30 @@ export default function Home() {
               backgroundColor: "#f9f9f9",
               color: "#333",
             }}
-            value={formData.rule.startsWith("Altro:") ? "altro" : formData.rule}
+            value={formData.rule === "" ? "altro" : formData.rule}
             onChange={(e) => {
               const value = e.target.value;
-              if (value === "altro") {
-                handleChange("rule", "Altro:");
-              } else {
-                handleChange("rule", value);
-              }
+              handleChange("rule", value === "altro" ? "" : value);
             }}
+
+
           >
             <option value="">-- Seleziona la penalità --</option>
             {[
-              "art. 39 – 'Abuso agli ufficiali di gara'",
-              "art. 41.4 – 'Carica in balaustra'",
-              "art. 42.4 – 'Carica scorretta'",
-              "art. 43.3 – 'Carica da dietro'",
-              "art. 45.4 – 'Gomitata'",
-              "art. 46.1 – 'Rissa / Fighting'",
-              "art. 48.3 – 'Carica contro la testa'",
-              "art. 49.3 – 'Calciare'",
-              "art. 50.3 – 'Ginocchiata'",
-              "art. 52.2 – 'Slew Footing'",
-              "art. 59.3 – 'Colpo di bastone'",
-              "art. 60.4 – 'Bastone alto'",
-              "art. 62.3 – 'Spearing'",
-              "altro",
+              "Art. 39 – 'Abuso agli ufficiali di gara'",
+              "Art. 41.4 – 'Carica in balaustra'",
+              "Art. 42.4 – 'Carica scorretta'",
+              "Art. 43.3 – 'Carica da dietro'",
+              "Art. 45.4 – 'Gomitata'",
+              "Art. 46.1 – 'Rissa / Fighting'",
+              "Art. 48.3 – 'Carica contro la testa'",
+              "Art. 49.3 – 'Calciare'",
+              "Art. 50.3 – 'Ginocchiata'",
+              "Art. 52.2 – 'Slew Footing'",
+              "Art. 59.3 – 'Colpo di bastone'",
+              "Art. 60.4 – 'Bastone alto'",
+              "Art. 62.3 – 'Spearing'",
+              "Altro",
             ].map((val) => (
               <option key={val} value={val.startsWith("art.") ? val : "altro"}>
                 {val === "altro" ? "Altra penalità" : val}
@@ -327,7 +333,7 @@ export default function Home() {
           </select>
 
 
-          {formData.rule.startsWith("Altro:") && (
+          {formData.rule === "" && (
             <input
               style={{
                 ...inputStyle,
@@ -338,8 +344,8 @@ export default function Home() {
                 fontStyle: "italic",
               }}
               placeholder="Inserisci manualmente (es. art. 58.3 – Colpo col pomolo del bastone)"
-              value={formData.rule.replace("Altro:", "")}
-              onChange={(e) => handleChange("rule", "Altro:" + e.target.value)}
+              value={formData.rule}
+              onChange={(e) => handleChange("rule", e.target.value)}
             />
           )}
 
@@ -363,8 +369,8 @@ export default function Home() {
   ];
 
   const cleanedAction = formData.action.trim().startsWith("Il giocatore ha")
-  ? formData.action.replace(/^Il giocatore ha\s*/i, "")
-  : formData.action;
+    ? formData.action.replace(/^Il giocatore ha\s*/i, "")
+    : formData.action;
 
 
   const isLastStep = step === steps.length;
@@ -402,7 +408,7 @@ ${formData.comments}`;
           <img
             src="/Logo.png"
             alt="Logo"
-            style={{ height: "40px", width: "auto", objectFit: "contain" }}
+            style={{ height: "60px", width: "auto", objectFit: "contain" }}
           />
           <h1 style={{ fontSize: "2rem", fontWeight: "700", color: "#0070f3", margin: 0 }}>
             Rapporto arbitrale
@@ -448,6 +454,20 @@ ${formData.comments}`;
               >
                 Avanti
               </button>
+
+              <div style={{
+                position: "fixed",
+                bottom: "10px",
+                right: "10px",
+                fontSize: "0.55rem",
+                background: "#eee",
+                padding: "6px 10px",
+                borderRadius: "8px",
+                boxShadow: "0 0 4px rgba(0, 0, 0, 0.16)"
+              }}>
+                Visualizzazioni: {visits}
+              </div>
+
             </div>
           </>
         ) : (
