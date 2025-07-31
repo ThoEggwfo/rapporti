@@ -310,19 +310,20 @@ export default function Home() {
           >
             <option value="">-- Seleziona la penalità --</option>
             {[
-              "Art. 39 – 'Abuso agli ufficiali di gara'",
-              "Art. 41.4 – 'Carica in balaustra'",
-              "Art. 42.4 – 'Carica scorretta'",
-              "Art. 43.3 – 'Carica da dietro'",
-              "Art. 45.4 – 'Gomitata'",
-              "Art. 46.1 – 'Rissa / Fighting'",
-              "Art. 48.3 – 'Carica contro la testa'",
-              "Art. 49.3 – 'Calciare'",
-              "Art. 50.3 – 'Ginocchiata'",
-              "Art. 52.2 – 'Slew Footing'",
-              "Art. 59.3 – 'Colpo di bastone'",
-              "Art. 60.4 – 'Bastone alto'",
-              "Art. 62.3 – 'Spearing'",
+              "art. 39 – 'Abuso agli ufficiali di gara'",
+              "art. 41.4 – 'Carica in balaustra'",
+              "art. 42.4 – 'Carica scorretta'",
+              "art. 43.3 – 'Carica da dietro'",
+              "art. 45.4 – 'Gomitata'",
+              "art. 46.1 – 'Rissa / Fighting'",
+              "art. 48.3 – 'Carica contro la testa'",
+              "art. 49.3 – 'Calciare'",
+              "art. 50.3 – 'Ginocchiata'",
+              "art. 52.2 – 'Slew Footing'",
+              "art. 59.3 – 'Colpo di bastone'",
+              "art. 60.4 – 'Bastone alto'",
+              "art. 62.3 – 'Spearing'",
+              "art. 75 – 'Spearing'",
             ].map((val) => (
               <option key={val} value={val}>
                 {val}
