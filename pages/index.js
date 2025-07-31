@@ -323,7 +323,7 @@ export default function Home() {
               "art. 59.3 – 'Colpo di bastone'",
               "art. 60.4 – 'Bastone alto'",
               "art. 62.3 – 'Spearing'",
-              "art. 75 – 'Spearing'",
+              "art. 75 – 'Comportamento antisportivo'",
             ].map((val) => (
               <option key={val} value={val}>
                 {val}
